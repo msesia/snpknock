@@ -4,7 +4,7 @@ Title: Knockoffs for Hidden Markov Models and Genetic Data
 Version: 0.8.2
 Date: 2019-04-30
 Authors@R: c(
-           person("Sesia", "Matteo", , "msesia@stanford.edu", role = c("aut", "cre"))
+           person("Matteo", "Sesia", , "msesia@stanford.edu", role = c("aut", "cre"))
            )                              
 Description: Generates knockoffs for hidden Markov models, with specific support for genetic data.
   For more information, see the website below and the accompanying paper: Sesia et al., 

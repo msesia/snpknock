@@ -131,7 +131,7 @@ Xinp_file =<span class="st"> </span><span class="kw"><a href="../reference/write
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fp_path  =<span class="st"> "~/bin/fastphase"</span> <span class="co"># Path to the fastPHASE executable</span>
 <span class="co"># Call fastPHASE and return the path to the parameter estimate files</span>
 fp_outPath =<span class="st"> </span><span class="kw"><a href="../reference/runFastPhase.html">runFastPhase</a></span>(fp_path, Xinp_file, <span class="dt">K =</span> <span class="dv">12</span>, <span class="dt">numit =</span> <span class="dv">15</span>)</code></pre></div>
-<pre><code>## ~/bin/fastphase -Pp -T1 -K12 -g -H-4 -C15 -S1 -o'/tmp/RtmpX1moq1/file12395760f08d' /tmp/RtmpX1moq1/file1239465b0552.inp</code></pre>
+<pre><code>## ~/bin/fastphase -Pp -T1 -K12 -g -H-4 -C15 -S1 -o'/tmp/RtmppADx9I/file92558c5a73f' /tmp/RtmppADx9I/file925584cdd84.inp</code></pre>
 <p>Above, the <code>SNPknock</code> package could not find <code>fastPHASE</code> because we did not provide the correct path (we cannot include third-party executable files within this package). However, if you install <code>fastPHASE</code> separately and provide <code>SNPknock</code> with the correct path, this will work.</p>
 <p>If the previous step worked for you, you can find the parameter estimates produced by <code>fastPHASE</code> in the following files:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_rhat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)
@@ -239,7 +239,7 @@ char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocu
 
 
       <footer><div class="copyright">
-  <p>Developed by Sesia Matteo.</p>
+  <p>Developed by Matteo Sesia.</p>
 </div>
 
 <div class="pkgdown">
