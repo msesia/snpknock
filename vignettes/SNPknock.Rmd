@@ -40,14 +40,14 @@ for(j in 1:(p-1)) {
 We can sample 100 independent observations of this Markov chain using the `SNPknock` package.
 ```{r}
 set.seed(1234)
-X = SNPknock.models.sampleDMC(pInit, Q, n=100)
+X = sampleDMC(pInit, Q, n=100)
 print(X[1:5,1:10])
 ```
 Above, each row of `X` contains an independent realization of the Markov chain.
 
 A knockoff copy of `X` can be sampled as follows.
 ```{r}
-Xk = SNPknock.knockoffDMC(X, pInit, Q)
+Xk = knockoffDMC(X, pInit, Q)
 print(Xk[1:5,1:10])
 ```
 
@@ -78,14 +78,14 @@ for(j in 1:p) { pEmit[j,,] = sweep(pEmit[j,,],2,colSums(pEmit[j,,]),`/`) }
 We can sample 100 independent observations of this hidden Markov model using the `SNPknock` package.
 ```{r}
 set.seed(1234)
-X = SNPknock.models.sampleHMM(pInit, Q, pEmit, n=100)
+X = sampleHMM(pInit, Q, pEmit, n=100)
 print(X[1:5,1:10])
 ```
 Above, each row of `X` contains an independent realization of the hidden Markov model.
 
 A knockoff copy of `X` can be sampled as follows.
 ```{r}
-Xk = SNPknock.knockoffHMM(X, pInit, Q, pEmit)
+Xk = knockoffHMM(X, pInit, Q, pEmit)
 print(Xk[1:5,1:10])
 ```
 

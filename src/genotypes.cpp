@@ -1,3 +1,22 @@
+/*
+  This file is part of SNPknock.
+
+    Copyright (C) 2017-2019 Matteo Sesia
+
+    SNPknock is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SNPknock is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with SNPknock.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifndef GENOTYPES_CPP
 #define GENOTYPES_CPP
 
@@ -232,7 +251,7 @@ void GroupGenotypes::knockoffMC(const std::vector<int> & H) {
     int groupSize = elements[g].size();
 
     // Compute v,w,u
-    
+
     // FIXME: update this with correct recursion formulae
     std::vector<double> u;
     matrix v,w;
@@ -343,7 +362,7 @@ void GroupGenotypes::knockoffMC(const std::vector<int> & H) {
     //   std::cout << Z[k] << " ";
     // }
     // std::cout<<std::endl;
-    
+
     // Compute sampling weights
     for(int j=0; j<groupSize; j++) {
       std::fill(weights.begin(), weights.end(), 1.0);

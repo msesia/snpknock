@@ -36,19 +36,19 @@ table(X)
 
 Below, we show how to fit a hidden Markov model to this data, with the help of `fastPHASE`.
 Since `fastPHASE` takes as input genotype sequences in ".inp" format, we must first convert 
-the X matrix by calling `SNPknock.fp.writeX`.
+the X matrix by calling `writeXtoInp`.
 By default, this function will write onto a temporary file in the R temporary directory. 
 ```{r}
 # Convert X into the suitable fastPHASE input format, write it into a temporary file
 # and return the path to that file.
-Xinp_file = SNPknock.fp.writeX(X)
+Xinp_file = writeXtoInp(X)
 ```
 
 Assuming that we have already downloaded `fastPHASE`, we can call it to fit the hidden Markov model to X.
 ```{r}
-fp_path  = "~/bin/fastPHASE" # Path to the fastPHASE executable
+fp_path  = "~/bin/fastphase" # Path to the fastPHASE executable
 # Call fastPHASE and return the path to the parameter estimate files
-fp_outPath = SNPknock.fp.runFastPhase(fp_path, Xinp_file, K = 12, numit = 15)
+fp_outPath = runFastPhase(fp_path, Xinp_file, K = 12, numit = 15)
 ```
 
 Above, the `SNPknock` package could not find `fastPHASE` because we did not provide the correct path
@@ -75,7 +75,7 @@ char_file  = system.file("extdata", "genotypes_origchars", package = "SNPknock")
 
 Then, we can construct the hidden Markov model with:
 ```{r}
-hmm = SNPknock.fp.loadFit(r_file, alpha_file, theta_file, char_file)
+hmm = loadHMM(r_file, alpha_file, theta_file, char_file)
 ```
 
 Generating knockoff genotypes
@@ -83,7 +83,7 @@ Generating knockoff genotypes
 
 Finally, we can use the hidden Markov model created above to generate knockoffs.
 ```{r}
-Xk = SNPknock.knockoffGenotypes(X, hmm$r, hmm$alpha, hmm$theta)
+Xk = knockoffGenotypes(X, hmm$r, hmm$alpha, hmm$theta)
 table(Xk)
 ```
 
@@ -102,19 +102,19 @@ table(H)
 
 Below, we show how to fit a hidden Markov model to this data, with the help of `fastPHASE`.
 Since `fastPHASE` takes as input haplotype sequences in ".inp" format, we must first convert 
-the H matrix by calling `SNPknock.fp.writeX`.
+the H matrix by calling `writeXtoInp`.
 By default, this function will write onto a temporary file in the R temporary directory. 
 ```{r}
 # Convert X into the suitable fastPHASE input format, write it into a temporary file
 # and return the path to that file.
-Hinp_file = SNPknock.fp.writeX(H, phased = TRUE)
+Hinp_file = writeXtoInp(H, phased = TRUE)
 ```
 
 Assuming that we have already downloaded `fastPHASE`, we can call it to fit the hidden Markov model to X.
 ```{r}
 fp_path  = "~/bin/fastPHASE" # Path to the fastPHASE executable
 # Call fastPHASE and return the path to the parameter estimate files
-fp_outPath = SNPknock.fp.runFastPhase(fp_path, Hinp_file, K = 12, numit = 15, phased = TRUE)
+fp_outPath = runFastPhase(fp_path, Hinp_file, K = 12, numit = 15, phased = TRUE)
 ```
 
 Above, the `SNPknock` package could not find `fastPHASE` because we did not provide the correct path
@@ -141,14 +141,14 @@ char_file  = system.file("extdata", "haplotypes_origchars", package = "SNPknock"
 
 Then, we can construct the hidden Markov model with:
 ```{r}
-hmm = SNPknock.fp.loadFit(r_file, alpha_file, theta_file, char_file)
+hmm = loadHMM(r_file, alpha_file, theta_file, char_file)
 ```
 
 ### Generating knockoff haplotypes
 
 Finally, we can use the hidden Markov model created above to generate knockoffs.
 ```{r}
-Hk = SNPknock.knockoffHaplotypes(H, hmm$r, hmm$alpha, hmm$theta)
+Hk = knockoffHaplotypes(H, hmm$r, hmm$alpha, hmm$theta)
 table(Hk)
 ```
 

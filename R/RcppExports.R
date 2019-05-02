@@ -15,20 +15,6 @@ GroupHaplotypes_wrapper <- function(X_, r_, alpha_, theta_, groups_, n_, p_, see
     .Call(`_SNPknock_GroupHaplotypes_wrapper`, X_, r_, alpha_, theta_, groups_, n_, p_, seed_, display_progress_)
 }
 
-#' Wrapper for DMC knockoffs
-#'
-#' @keywords internal
-knockoffDMC_single_wrapper <- function(X_, pInit_, Q_, n_, p_, K_, seed_, display_progress_) {
-    .Call(`_SNPknock_knockoffDMC_single_wrapper`, X_, pInit_, Q_, n_, p_, K_, seed_, display_progress_)
-}
-
-#' Wrapper for HMM knockoffs
-#'
-#' @keywords internal
-knockoffHMM_single_wrapper <- function(X_, pInit_, Q_, pEmit_, n_, p_, K_, M_, seed_, display_progress_) {
-    .Call(`_SNPknock_knockoffHMM_single_wrapper`, X_, pInit_, Q_, pEmit_, n_, p_, K_, M_, seed_, display_progress_)
-}
-
 #' Wrapper for DMC group knockoffs
 #'
 #' @keywords internal

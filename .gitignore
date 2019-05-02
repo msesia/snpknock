@@ -1,13 +1,9 @@
-*__pycache__/
-*~
-*.mexa64
-*.pyc
-*.so
-*.egg*
+Read-and-delete-me
 .Rproj.user
 *.Rhistory
 *.Rbuildignore
 *.o
+*.so
 *.Rcheck
 *.gz
 *.tgz
@@ -23,9 +19,5 @@
 *.xml
 *.pxd
 *auto/
-R/SNPknock/vignettes/SNPknock_files/
-R/SNPknock/src/RcppExports.cpp
-Python/build/
-Python/dist/
-Python/docs/build/
-Python/SNPknock/knockoffs.cpp
+src/RcppExports.cpp
+*/*_files

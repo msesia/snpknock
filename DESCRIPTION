@@ -1,7 +1,7 @@
 Package: SNPknock
 Type: Package
 Title: Knockoffs for Hidden Markov Models and Genetic Data
-Version: 0.8.1
+Version: 0.8.2
 Date: 2019-04-30
 Author: Matteo Sesia
 Maintainer: Matteo Sesia <msesia@stanford.edu>
@@ -10,7 +10,7 @@ Description: Generates knockoff variables from discrete Markov chains and hidden
   "Gene Hunting with Knockoffs for Hidden Markov Models", 
   2017, <arXiv:1706.04677>.
 URL: https://web.stanford.edu/group/candes/knockoffs/software/snpknock/
-License: GPL (>= 2)
+License: GPL (>= 3)
 Depends: R (>= 3.3.0)
 Imports: Rcpp (>= 0.12.13)
 Suggests: knitr, testthat, parallel, doParallel

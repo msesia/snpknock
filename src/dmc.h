@@ -1,7 +1,7 @@
 /*
   This file is part of SNPknock.
 
-    Copyright (C) 2017 Matteo Sesia
+    Copyright (C) 2017-2019 Matteo Sesia
 
     SNPknock is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ typedef std::vector< std::vector<double> > matrix;
 class KnockoffDMC {
  public:
   KnockoffDMC(const std::vector<int>& _G, int K, int seed);
-  KnockoffDMC(const std::vector<double>& _pInit, const std::vector< matrix >& _Q, 
+  KnockoffDMC(const std::vector<double>& _pInit, const std::vector< matrix >& _Q,
                const std::vector<int>& _G, int seed);
   ~KnockoffDMC();
   std::vector< std::vector<int> > sample(const std::vector< std::vector<int> >& X);

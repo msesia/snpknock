@@ -10,8 +10,8 @@ test_that('Markov chain knockoffs have the right correlation structure', {
     Q[j,,] = Q[j,,] / rowSums(Q[j,,]) 
   }
   
-  X = SNPknock.models.sampleDMC(pInit, Q, n=100000)
-  Xk = SNPknock.knockoffDMC(X, pInit, Q, display_progress=F)
+  X = sampleDMC(pInit, Q, n=100000)
+  Xk = knockoffDMC(X, pInit, Q, display_progress=F)
   
   expect_knockMatch(X, Xk, tolMeans=1e-2, tolCorr=1e-2)
 })
@@ -33,8 +33,8 @@ test_that('Hidden Markov model knockoffs have the right correlation structure', 
   pEmit = array(stats::runif(p*M*K),c(p,M,K))
   for(j in 1:p) { pEmit[j,,] = sweep(pEmit[j,,],2,colSums(pEmit[j,,]),`/`) }
   
-  X = SNPknock.models.sampleHMM(pInit, Q, pEmit, n=500000)
-  Xk = SNPknock.knockoffHMM(X, pInit, Q, pEmit, display_progress=F)
+  X = sampleHMM(pInit, Q, pEmit, n=500000)
+  Xk = knockoffHMM(X, pInit, Q, pEmit, display_progress=F)
   
   expect_knockMatch(X, Xk, tolMeans=1e-2, tolCorr=1e-2)
 })

@@ -1,8 +1,8 @@
 #' Group-knockoff copies of unphased genotypes
-#' 
-#' This function efficiently constructs group-knockoff copies of {0,1,2} variables distributed 
+#'
+#' This function efficiently constructs group-knockoff copies of {0,1,2} variables distributed
 #' according to the Li and Stephens model for unphased genotypes.
-#' 
+#'
 #' @param X a {0,1,2} matrix of size n-by-p containing the original variables.
 #' @param r a vector of length p containing the "r" parameters estimated by fastPHASE.
 #' @param alpha a matrix of size p-by-K containing the "alpha" parameters estimated by fastPHASE.
@@ -11,25 +11,25 @@
 #' are assumed to be monotone increasing, starting from 1 (default: NULL).
 #' @param seed an integer random seed (default: 123).
 #' @param cluster a computing cluster object created by \link[parallel]{makeCluster} (default: NULL).
-#' @param display_progress whether to show progress bar (default: TRUE).
+#' @param display_progress whether to show progress bar (default: FALSE).
 #' @return A {0,1,2} matrix of size n-by-p containing the knockoff variables.
-#' 
+#'
 #' @family knockoffs
-#' 
+#'
 #' @details
 #' Generate group-knockoff copies of unphased genotypes according to the Li and Stephens HMM.
-#' The required model parameters can be obtained through fastPHASE and loaded with \link{SNPknock.fp.loadFit}.
-#' This function is more efficient than \link{SNPknock.knockoffHMM} for haplotype data.
-#' 
-#' @references 
+#' The required model parameters can be obtained through fastPHASE and loaded with \link{fp.loadFit}.
+#' This function is more efficient than \link{knockoffHMM} for haplotype data.
+#'
+#' @references
 #'   Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
 #'   arXiv:1706.04677 (2017).
 #'   \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
-#' 
+#'
 #' Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
 #'   Am J Hum Genet (2006).
 #'   \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
-#'   
+#'
 #' @examples
 #' # Problem size
 #' p = 10
@@ -39,21 +39,21 @@
 #' alpha_file = system.file("extdata", "haplotypes_alphahat.txt", package = "SNPknock")
 #' theta_file = system.file("extdata", "haplotypes_thetahat.txt", package = "SNPknock")
 #' char_file = system.file("extdata", "haplotypes_origchars", package = "SNPknock")
-#' hmm.data = SNPknock.fp.loadFit_hmm(r_file, alpha_file, theta_file, char_file, phased=FALSE)
+#' hmm.data = fp.loadFit_hmm(r_file, alpha_file, theta_file, char_file, phased=FALSE)
 #' hmm.data$Q = hmm.data$Q[1:(p-1),,]
 #' hmm.data$pEmit = hmm.data$pEmit[1:p,,]
 #' # Sample X from this HMM
-#' X = SNPknock.models.sampleHMM(hmm.data$pInit, hmm.data$Q, hmm.data$pEmit, n=n)
+#' X = sampleHMM(hmm.data$pInit, hmm.data$Q, hmm.data$pEmit, n=n)
 #' # Load HMM to generate knockoffs
-#' hmm = SNPknock.fp.loadFit(r_file, alpha_file, theta_file, char_file)
+#' hmm = fp.loadFit(r_file, alpha_file, theta_file, char_file)
 #' hmm$r = hmm$r[1:p]
 #' hmm$alpha = hmm$alpha[1:p,]
 #' hmm$theta = hmm$theta[1:p,]
 #' # Generate group knockoffs
 #' groups = seq(1,p)
-#' Xk = SNPknock.knockoffGenotypes(X, hmm$r, hmm$alpha, hmm$theta, groups=groups)
+#' Xk = knockoffGenotypes(X, hmm$r, hmm$alpha, hmm$theta, groups=groups)
 #' @export
-SNPknock.knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123, cluster=NULL, display_progress=TRUE) {
+knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123, cluster=NULL, display_progress=FALSE) {
   # If groups are not provided, define singleton groups
   if(is.null(groups)) {
     groups = seq(1, ncol(X))
@@ -65,7 +65,7 @@ SNPknock.knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123
   stopifnot(dim(X)[2]==dim(theta)[1])
   stopifnot(dim(alpha)[2]==dim(theta)[2])
   stopifnot(dim(X)[2]==length(groups))
-  
+
   # Verify contents are compatible
   stopifnot(is.integer(X))
   stopifnot(is.numeric(r))
@@ -79,12 +79,12 @@ SNPknock.knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123
   stopifnot(is.integer(seed))
   stopifnot(is.logical(display_progress))
   stopifnot(is.integer(groups))
-  
+
   # Extract dimensions
   n = dim(X)[1]
   p = dim(X)[2]
   K = dim(alpha)[2]
-  
+
   # Split non-contigous groups
   groups.cont = rep(1,p)
   group.count = 1
@@ -94,16 +94,16 @@ SNPknock.knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123
     }
     groups.cont[j] = group.count
   }
-  
+
   if( (!is.null(cluster)) & (length(cluster)>1) ) {
     if(requireNamespace("doParallel", quietly = TRUE))
     {
       # Count number of workers in the cluster
       ncores = length(cluster)
-      
+
       # Assign rows to workers
       splits <- cut(1:nrow(X),breaks=ncores,labels=FALSE)
-      
+
       # Sample knockoffs in parallel
       Xk = do.call(rbind, parallel::parLapply(cluster, 1:ncores, function(i) {
         n.split = sum(splits==i)
@@ -124,10 +124,10 @@ SNPknock.knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123
 }
 
 #' Group-knockoff copies of phased haplotypes
-#' 
-#' This function efficiently constructs group-knockoff copies of binary variables distributed 
+#'
+#' This function efficiently constructs group-knockoff copies of binary variables distributed
 #' according to the Li and Stephens model for phased haplotypes.
-#' 
+#'
 #' @param X a binary matrix of size n-by-p containing the original variables.
 #' @param r a vector of length p containing the "r" parameters estimated by fastPHASE.
 #' @param alpha a matrix of size p-by-K containing the "alpha" parameters estimated by fastPHASE.
@@ -136,25 +136,25 @@ SNPknock.knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123
 #' are assumed to be monotone increasing, starting from 1 (default: NULL).
 #' @param seed an integer random seed (default: 123).
 #' @param cluster a computing cluster object created by \link[parallel]{makeCluster} (default: NULL).
-#' @param display_progress whether to show progress bar (default: TRUE).
+#' @param display_progress whether to show progress bar (default: FALSE).
 #' @return A binary matrix of size n-by-p containing the knockoff variables.
-#' 
+#'
 #' @family knockoffs
-#' 
+#'
 #' @details
 #' Generate group-knockoff copies of phased haplotypes according to the Li and Stephens HMM.
-#' The required model parameters can be obtained through fastPHASE and loaded with \link{SNPknock.fp.loadFit}.
-#' This function is more efficient than \link{SNPknock.knockoffHMM} for haplotype data.
-#' 
-#' @references 
+#' The required model parameters can be obtained through fastPHASE and loaded with \link{fp.loadFit}.
+#' This function is more efficient than \link{knockoffHMM} for haplotype data.
+#'
+#' @references
 #'   Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
 #'   arXiv:1706.04677 (2017).
 #'   \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
-#' 
+#'
 #' Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
 #'   Am J Hum Genet (2006).
 #'   \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
-#'   
+#'
 #' @examples
 #' # Problem size
 #' p = 10
@@ -164,34 +164,34 @@ SNPknock.knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123
 #' alpha_file = system.file("extdata", "haplotypes_alphahat.txt", package = "SNPknock")
 #' theta_file = system.file("extdata", "haplotypes_thetahat.txt", package = "SNPknock")
 #' char_file = system.file("extdata", "haplotypes_origchars", package = "SNPknock")
-#' hmm.data = SNPknock.fp.loadFit_hmm(r_file, alpha_file, theta_file, char_file, phased=TRUE)
+#' hmm.data = fp.loadFit_hmm(r_file, alpha_file, theta_file, char_file, phased=TRUE)
 #' hmm.data$Q = hmm.data$Q[1:(p-1),,]
 #' hmm.data$pEmit = hmm.data$pEmit[1:p,,]
 #' # Sample X from this HMM
-#' X = SNPknock.models.sampleHMM(hmm.data$pInit, hmm.data$Q, hmm.data$pEmit, n=n)
+#' X = sampleHMM(hmm.data$pInit, hmm.data$Q, hmm.data$pEmit, n=n)
 #' # Load HMM to generate knockoffs
-#' hmm = SNPknock.fp.loadFit(r_file, alpha_file, theta_file, char_file)
+#' hmm = fp.loadFit(r_file, alpha_file, theta_file, char_file)
 #' hmm$r = hmm$r[1:p]
 #' hmm$alpha = hmm$alpha[1:p,]
 #' hmm$theta = hmm$theta[1:p,]
 #' # Generate group knockoffs
 #' groups = seq(1,p)
-#' Xk = SNPknock.knockoffHaplotypes(X, hmm$r, hmm$alpha, hmm$theta, groups=groups)
-#' 
+#' Xk = knockoffHaplotypes(X, hmm$r, hmm$alpha, hmm$theta, groups=groups)
+#'
 #' @export
-SNPknock.knockoffHaplotypes <- function(X, r, alpha, theta, groups=NULL, seed=123, cluster=NULL, display_progress=TRUE) {
+knockoffHaplotypes <- function(X, r, alpha, theta, groups=NULL, seed=123, cluster=NULL, display_progress=FALSE) {
   # If groups are not provided, define singleton groups
   if(is.null(groups)) {
     groups = seq(1, ncol(X))
   }
-    
+
   # Verify dimensions are compatible
   stopifnot(dim(X)[2]==length(r))
   stopifnot(dim(X)[2]==dim(alpha)[1])
   stopifnot(dim(X)[2]==dim(theta)[1])
   stopifnot(dim(alpha)[2]==dim(theta)[2])
   stopifnot(dim(X)[2]==length(groups))
-  
+
   # Verify contents are compatible
   stopifnot(is.integer(X))
   stopifnot(is.numeric(r))
@@ -205,12 +205,12 @@ SNPknock.knockoffHaplotypes <- function(X, r, alpha, theta, groups=NULL, seed=12
   stopifnot(is.integer(seed))
   stopifnot(is.logical(display_progress))
   stopifnot(is.integer(groups))
-  
+
   # Extract dimensions
   n = dim(X)[1]
   p = dim(X)[2]
   K = dim(alpha)[2]
-  
+
   # Split non-contigous groups
   groups.cont = rep(1,p)
   group.count = 1
@@ -220,16 +220,16 @@ SNPknock.knockoffHaplotypes <- function(X, r, alpha, theta, groups=NULL, seed=12
     }
     groups.cont[j] = group.count
   }
-  
+
   if( (!is.null(cluster)) & (length(cluster)>1) ) {
     if(requireNamespace("doParallel", quietly = TRUE))
     {
       # Count number of workers in the cluster
       ncores = length(cluster)
-      
+
       # Assign rows to workers
       splits <- cut(1:nrow(X),breaks=ncores,labels=FALSE)
-      
+
       # Sample knockoffs in parallel
       Xk = do.call(rbind, parallel::parLapply(cluster, 1:ncores, function(i) {
         n.split = sum(splits==i)
