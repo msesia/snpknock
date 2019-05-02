@@ -24,7 +24,7 @@ test_that("Knockoffs for haplotypes are consistent with HMM knockoffs", {
   Xk.hap <- knockoffHaplotypes(X, hmm.small$r, hmm.small$alpha, hmm.small$theta, display_progress=F)
   
   # Verify that the knockoffs are identical
-  expect_equal(Xk, Xk.hap)
+  testthat::expect_equal(Xk, Xk.hap)
 })
 
 test_that("Knockoffs for genotypes are consistent with HMM knockoffs", {
@@ -53,5 +53,5 @@ test_that("Knockoffs for genotypes are consistent with HMM knockoffs", {
   Xk.gen <- knockoffGenotypes(X, hmm.small$r, hmm.small$alpha, hmm.small$theta, display_progress=F)
   
   # Verify that the knockoffs are identical
-  expect_equal(Xk, Xk.gen)
+  testthat::expect_equal(Xk, Xk.gen)
 })

@@ -3,18 +3,21 @@ Type: Package
 Title: Knockoffs for Hidden Markov Models and Genetic Data
 Version: 0.8.2
 Date: 2019-04-30
-Author: Matteo Sesia
-Maintainer: Matteo Sesia <msesia@stanford.edu>
-Description: Generates knockoff variables from discrete Markov chains and hidden Markov models, with specific support for genetic data.
+Authors@R: c(
+           person("Sesia", "Matteo", , "msesia@stanford.edu", role = c("aut", "cre"))
+           )                              
+Description: Generates knockoffs for hidden Markov models, with specific support for genetic data.
   For more information, see the website below and the accompanying paper: Sesia et al., 
   "Gene Hunting with Knockoffs for Hidden Markov Models", 
   2017, <arXiv:1706.04677>.
-URL: https://web.stanford.edu/group/candes/knockoffs/software/snpknock/
-License: GPL (>= 3)
+License: GPL-3
+Language: en-US
 Depends: R (>= 3.3.0)
 Imports: Rcpp (>= 0.12.13)
 Suggests: knitr, testthat, parallel, doParallel
 LinkingTo: Rcpp, RcppArmadillo, RcppProgress
 RoxygenNote: 6.1.1
+URL: https://msesia.github.io/snpknock
+BugReports: https://github.com/msesia/snpknock/issues
 VignetteBuilder: knitr
 Encoding: UTF-8

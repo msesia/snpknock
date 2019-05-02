@@ -1,46 +1,18 @@
-SNPknock for R
-==========================
+# SNPknock
 
-This package implements efficient algorithms for generating knockoff copies of variables distributed as discrete Markov chains and hidden Markov models, with specific support for genetic data. To learn more, visit https://web.stanford.edu/group/candes/knockoffs/software/snpknock/.
+[![Travis-CI build status](https://travis-ci.org/r-lib/SNPknock.svg?branch=master)](https://travis-ci.org/r-lib/SNPknock)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-lib/SNPknock?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/SNPknock)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![CRAN Status](https://www.r-pkg.org/badges/version/SNPknock)](https://cran.r-project.org/package=SNPknock)
+[![Codecov test coverage](https://img.shields.io/codecov/c/github/r-lib/SNPknock/master.svg)](https://codecov.io/github/r-lib/SNPknock?branch=master)
 
-# Installation
+This package provides efficient algorithms to generate knockoffs for hidden Markov models, with specific support for genetic data. To learn more, visit https://web.stanford.edu/group/candes/knockoffs/software/snpknock/.
 
-## Stable version
+## Installation
 
-The stable version of this package is hosted on [CRAN](https://cran.r-project.org/package=SNPknock). 
-
-To install this package from CRAN, run the following command in your R console:
-```r
-install.packages("SNPknock")
-```
-
-## Development version
-
-You can install the lastest development version by cloning this repository and building the package from source. Alternatively, you can install it directly from your R console using the [devtools](https://CRAN.R-project.org/package=devtools) package.
-
-To install this package with devtools, run the following command in your R console:
+To install this package, run the following command in your R console:
 
 ```r
-library(devtools)
-install_bitbucket("msesia/snpknock/R/SNPknock")
+# For the current development version
+devtools::install_github("msesia/snpknock")
 ```
-
-If you also want install the vignettes along with the package, type instead:
-
-```r
-install_bitbucket("msesia/snpknock/R/SNPknock", build_vignette = TRUE)
-```
-
-Note that building the vignettes may require additional R packages.
-
-## Resources
-For more information and tutorials, visit
-https://web.stanford.edu/group/candes/knockoffs/software/snpknock/
-
-## News
-
-To read about the latest changes, visit the [NEWS page](SNPknock/NEWS).
-
-## License
-
-This software is distributed under the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html) and it comes with ABSOLUTELY NO WARRANTY.

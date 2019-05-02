@@ -9,9 +9,13 @@ test_that("HMM for haplotypes are loaded correctly", {
   char.file <- system.file("extdata", "haplotypes_origchars", package = "SNPknock")
   hmm.compact <- loadHMM(r.file, alpha.file, theta.file, char.file)
   hmm.large <- loadHMM(r.file, alpha.file, theta.file, char.file, compact=FALSE, phased=TRUE)
-  hmm <- c(hmm.compact,hmm.large)
   # Verify that the parameters are identical
-  expect_equal(hmm, hmm.hap)
+  testthat::expect_equal(hmm.hap$r, hmm.compact$r)
+  testthat::expect_equal(hmm.hap$alpha, hmm.compact$alpha)
+  testthat::expect_equal(hmm.hap$theta, hmm.compact$theta)
+  testthat::expect_equal(hmm.hap$pInit, hmm.large$pInit)
+  testthat::expect_equal(hmm.hap$Q, hmm.large$Q)
+  testthat::expect_equal(hmm.hap$pEmit, hmm.large$pEmit)
 })
 
 test_that("HMM for genotypes are loaded correctly", {
@@ -27,11 +31,13 @@ test_that("HMM for genotypes are loaded correctly", {
   hmm.large <-  loadHMM(r.file, alpha.file, theta.file, char.file, compact=FALSE, phased=FALSE)
   hmm.large$Q <- hmm.large$Q[1:4,,]
   hmm.large$pEmit <- hmm.large$pEmit[1:5,,]
-  hmm <- c(hmm.compact,hmm.large)
   # Verify that the parameters are identical
-  testthat::expect_equal(hmm$pInit, hmm.gen$pInit)
-  testthat::expect_equal(hmm$Q, hmm.gen$Q)
-  testthat::expect_equal(hmm$pEmit, hmm.gen$pEmit)
+  testthat::expect_equal(hmm.gen$r, hmm.compact$r)
+  testthat::expect_equal(hmm.gen$alpha, hmm.compact$alpha)
+  testthat::expect_equal(hmm.gen$theta, hmm.compact$theta)
+  testthat::expect_equal(hmm.gen$pInit, hmm.large$pInit)
+  testthat::expect_equal(hmm.gen$Q, hmm.large$Q)
+  testthat::expect_equal(hmm.gen$pEmit, hmm.large$pEmit)
 })
 
 test_that("Haplotypes are correctly converted into INP format", {
@@ -41,7 +47,7 @@ test_that("Haplotypes are correctly converted into INP format", {
   inp.file <- writeXtoInp(H, phased=T)
   # Stored INP file
   inp.file.stored <- system.file("extdata", "haplotypes.inp", package = "SNPknock")
-  expect_equal(readLines(inp.file), readLines(inp.file.stored))
+  testthat::expect_equal(readLines(inp.file), readLines(inp.file.stored))
 })
 
 test_that("Genotypes are correctly converted into INP format", {
@@ -51,5 +57,5 @@ test_that("Genotypes are correctly converted into INP format", {
   inp.file <- writeXtoInp(X, phased=F)
   # Stored INP file
   inp.file.stored <- system.file("extdata", "genotypes.inp", package = "SNPknock")
-  expect_equal(readLines(inp.file), readLines(inp.file.stored))
+  testthat::expect_equal(readLines(inp.file), readLines(inp.file.stored))
 })

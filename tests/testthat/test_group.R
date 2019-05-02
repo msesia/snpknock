@@ -28,7 +28,7 @@ test_that("Group knockoffs for haplotypes are consistent with group HMM knockoff
   Xk.hap <- knockoffHaplotypes(X, hmm.small$r, hmm.small$alpha, hmm.small$theta, groups=groups, display_progress=F)
 
   # Verify that the knockoffs are identical
-  expect_equal(Xk, Xk.hap)
+  testthat::expect_equal(Xk, Xk.hap)
 })
 
 test_that("Group knockoffs for genotypes are consistent with group HMM knockoffs", {
@@ -61,5 +61,5 @@ test_that("Group knockoffs for genotypes are consistent with group HMM knockoffs
   Xk.gen <- knockoffGenotypes(X, hmm.small$r, hmm.small$alpha, hmm.small$theta, groups=groups, display_progress=F)
 
   # Verify that the knockoffs are identical
-  expect_equal(Xk, Xk.gen)
+  testthat::expect_equal(Xk, Xk.gen)
 })

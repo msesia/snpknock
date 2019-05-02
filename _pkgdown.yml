@@ -1,0 +1,12 @@
+templates:
+  params:
+    bootswatch: readable
+
+navbar:
+  title: "SNPknock"
+  right:
+    - text: "About"
+      icon: fa-user
+      href: http://web.stanford.edu/~msesia/
+    - icon: fa-github
+      href: https://github.com/msesia/snpknock

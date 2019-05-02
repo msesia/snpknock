@@ -18,7 +18,7 @@
 #'
 #' @details
 #' Generate group-knockoff copies of unphased genotypes according to the Li and Stephens HMM.
-#' The required model parameters can be obtained through fastPHASE and loaded with \link{fp.loadFit}.
+#' The required model parameters can be obtained through fastPHASE and loaded with \link{loadHMM}.
 #' This function is more efficient than \link{knockoffHMM} for haplotype data.
 #'
 #' @references
@@ -39,13 +39,13 @@
 #' alpha_file = system.file("extdata", "haplotypes_alphahat.txt", package = "SNPknock")
 #' theta_file = system.file("extdata", "haplotypes_thetahat.txt", package = "SNPknock")
 #' char_file = system.file("extdata", "haplotypes_origchars", package = "SNPknock")
-#' hmm.data = fp.loadFit_hmm(r_file, alpha_file, theta_file, char_file, phased=FALSE)
+#' hmm.data = loadHMM(r_file, alpha_file, theta_file, char_file, compact=FALSE, phased=FALSE)
 #' hmm.data$Q = hmm.data$Q[1:(p-1),,]
 #' hmm.data$pEmit = hmm.data$pEmit[1:p,,]
 #' # Sample X from this HMM
 #' X = sampleHMM(hmm.data$pInit, hmm.data$Q, hmm.data$pEmit, n=n)
 #' # Load HMM to generate knockoffs
-#' hmm = fp.loadFit(r_file, alpha_file, theta_file, char_file)
+#' hmm = loadHMM(r_file, alpha_file, theta_file, char_file)
 #' hmm$r = hmm$r[1:p]
 #' hmm$alpha = hmm$alpha[1:p,]
 #' hmm$theta = hmm$theta[1:p,]
@@ -143,7 +143,7 @@ knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123, cluster
 #'
 #' @details
 #' Generate group-knockoff copies of phased haplotypes according to the Li and Stephens HMM.
-#' The required model parameters can be obtained through fastPHASE and loaded with \link{fp.loadFit}.
+#' The required model parameters can be obtained through fastPHASE and loaded with \link{loadHMM}.
 #' This function is more efficient than \link{knockoffHMM} for haplotype data.
 #'
 #' @references
@@ -164,13 +164,13 @@ knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123, cluster
 #' alpha_file = system.file("extdata", "haplotypes_alphahat.txt", package = "SNPknock")
 #' theta_file = system.file("extdata", "haplotypes_thetahat.txt", package = "SNPknock")
 #' char_file = system.file("extdata", "haplotypes_origchars", package = "SNPknock")
-#' hmm.data = fp.loadFit_hmm(r_file, alpha_file, theta_file, char_file, phased=TRUE)
+#' hmm.data = loadHMM(r_file, alpha_file, theta_file, char_file, compact=FALSE, phased=TRUE)
 #' hmm.data$Q = hmm.data$Q[1:(p-1),,]
 #' hmm.data$pEmit = hmm.data$pEmit[1:p,,]
 #' # Sample X from this HMM
 #' X = sampleHMM(hmm.data$pInit, hmm.data$Q, hmm.data$pEmit, n=n)
 #' # Load HMM to generate knockoffs
-#' hmm = fp.loadFit(r_file, alpha_file, theta_file, char_file)
+#' hmm = loadHMM(r_file, alpha_file, theta_file, char_file)
 #' hmm$r = hmm$r[1:p]
 #' hmm$alpha = hmm$alpha[1:p,]
 #' hmm$theta = hmm$theta[1:p,]
