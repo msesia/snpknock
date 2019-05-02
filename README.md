@@ -6,7 +6,7 @@
 [![CRAN Status](https://www.r-pkg.org/badges/version/SNPknock)](https://cran.r-project.org/package=SNPknock)
 [![Codecov test coverage](https://img.shields.io/codecov/c/github/r-lib/SNPknock/master.svg)](https://codecov.io/github/r-lib/SNPknock?branch=master)
 
-This package provides efficient algorithms to generate knockoffs for hidden Markov models, with specific support for genetic data. To learn more, visit https://web.stanford.edu/group/candes/knockoffs/software/snpknock/.
+This package provides efficient algorithms to generate knockoffs for hidden Markov models, with specific support for genetic data.
 
 ## Installation
 

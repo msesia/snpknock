@@ -8,5 +8,6 @@ navbar:
     - text: "About"
       icon: fa-user
       href: http://web.stanford.edu/~msesia/
-    - icon: fa-github
+    - text: "GitHub"
+      icon: fa-github
       href: https://github.com/msesia/snpknock
