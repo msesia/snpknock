@@ -8,7 +8,6 @@ Read-and-delete-me
 *.gz
 *.tgz
 *cache*
-*.html
 *.aux
 *.blg
 *.bcf
