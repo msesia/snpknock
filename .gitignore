@@ -18,5 +18,4 @@ Read-and-delete-me
 *.xml
 *.pxd
 *auto/
-src/RcppExports.cpp
 */*_files

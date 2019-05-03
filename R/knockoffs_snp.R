@@ -108,7 +108,8 @@ knockoffGenotypes <- function(X, r, alpha, theta, groups=NULL, seed=123, cluster
       Xk = do.call(rbind, parallel::parLapply(cluster, 1:ncores, function(i) {
         n.split = sum(splits==i)
         display_progress = (i==1)*display_progress
-        GroupGenotypes_wrapper(X[splits==i,], r, alpha, theta, groups.cont-1, n.split, ncol(X), seed+(i-1), display_progress)
+        GroupGenotypes_wrapper(X[splits==i,], r, alpha, theta, groups.cont-1, n.split, ncol(X),
+                               seed+(i-1), display_progress)
       }))
     } else {
       warning("To enable multithreading, please install the doParallel package ")
@@ -234,7 +235,8 @@ knockoffHaplotypes <- function(X, r, alpha, theta, groups=NULL, seed=123, cluste
       Xk = do.call(rbind, parallel::parLapply(cluster, 1:ncores, function(i) {
         n.split = sum(splits==i)
         display_progress = (i==1)*display_progress
-        GroupHaplotypes_wrapper(X[splits==i,], r, alpha, theta, groups.cont-1, n.split, p, seed+(i-1), display_progress)
+        GroupHaplotypes_wrapper(X[splits==i,], r, alpha, theta, groups.cont-1, n.split, p,
+                                seed+(i-1), display_progress)
       }))
     } else {
       warning("To enable multithreading, please install the doParallel package ")
