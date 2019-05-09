@@ -6,14 +6,15 @@ Date: 2019-04-30
 Authors@R: c(
            person("Matteo", "Sesia", , "msesia@stanford.edu", role = c("aut", "cre"))
            )                              
-Description: Generates knockoffs for hidden Markov models, with specific support for genetic data.
-  For more information, see the website below and the accompanying paper: Sesia et al., 
-  "Gene Hunting with Knockoffs for Hidden Markov Models", 
-  2017, <arXiv:1706.04677>.
+Description: Generate knockoffs for genetic data and hidden Markov models.
+  For more information, see the website below and the accompanying papers: 
+  "Gene Hunting with Knockoffs for Hidden Markov Models", Sesia et al., Biometrika, 2019.
+  "Multi-resolution localization of causal variants across the genome", Sesia et al., bioRxiv, 2019.
 License: GPL-3
 Language: en-US
 Depends: R (>= 3.3.0)
-Imports: Rcpp (>= 0.12.13)
+Imports: Rcpp (>= 0.12.13), Rdpack
+RdMacros: Rdpack
 Suggests: knitr, testthat, parallel, doParallel
 LinkingTo: Rcpp, RcppArmadillo, RcppProgress
 RoxygenNote: 6.1.1

@@ -39,9 +39,7 @@ X = sampleHMM(pInit, Q, pEmit, n=20)
 
 }
 \references{
-Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-  arXiv:1706.04677 (2017).
-  \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
+\insertRef{sesia2019}{SNPknock}
 }
 \seealso{
 Other models: \code{\link{sampleDMC}}

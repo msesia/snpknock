@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Group-knockoff copies of unphased genotypes — knockoffGenotypes • SNPknock</title>
+<title>Group-knockoffs of unphased genotypes — knockoffGenotypes • SNPknock</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Group-knockoff copies of unphased genotypes — knockoffGenotypes" />
+<meta property="og:title" content="Group-knockoffs of unphased genotypes — knockoffGenotypes" />
 
-<meta property="og:description" content="This function efficiently constructs group-knockoff copies of 0,1,2 variables distributed
+<meta property="og:description" content="This function efficiently constructs group-knockoffs of 0,1,2 variables distributed
 according to the Li and Stephens model for unphased genotypes." />
 <meta name="twitter:card" content="summary" />
 
@@ -123,14 +123,14 @@ according to the Li and Stephens model for unphased genotypes." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Group-knockoff copies of unphased genotypes</h1>
+    <h1>Group-knockoffs of unphased genotypes</h1>
     
     <div class="hidden name"><code>knockoffGenotypes.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function efficiently constructs group-knockoff copies of 0,1,2 variables distributed
+    <p>This function efficiently constructs group-knockoffs of 0,1,2 variables distributed
 according to the Li and Stephens model for unphased genotypes.</p>
     
     </div>
@@ -182,18 +182,17 @@ are assumed to be monotone increasing, starting from 1 (default: NULL).</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Generate group-knockoff copies of unphased genotypes according to the Li and Stephens HMM.
+    <p>Generate group-knockoffs of unphased genotypes according to the Li and Stephens HMM.
 The required model parameters can be obtained through fastPHASE and loaded with <a href='loadHMM.html'>loadHMM</a>.
 This function is more efficient than <a href='knockoffHMM.html'>knockoffHMM</a> for haplotype data.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-  arXiv:1706.04677 (2017).
-  <a href='https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf'>https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf</a></p>
-<p>Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
-  Am J Hum Genet (2006).
-  <a href='http://www.sciencedirect.com/science/article/pii/S000292970763701X'>http://www.sciencedirect.com/science/article/pii/S000292970763701X</a></p>
+    <p>Sesia M, Katsevich E, Bates S, Candès E, Sabatti C (2019).
+&#8220;Multi-resolution localization of causal variants across the genome.&#8221;
+<em>bioRxiv</em>.
+doi: <a href='http://doi.org/10.1101/631390'>10.1101/631390</a>
+.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -221,8 +220,10 @@ This function is more efficient than <a href='knockoffHMM.html'>knockoffHMM</a> 
 <span class='no'>hmm</span>$<span class='no'>r</span> <span class='kw'>=</span> <span class='no'>hmm</span>$<span class='no'>r</span>[<span class='fl'>1</span>:<span class='no'>p</span>]
 <span class='no'>hmm</span>$<span class='no'>alpha</span> <span class='kw'>=</span> <span class='no'>hmm</span>$<span class='no'>alpha</span>[<span class='fl'>1</span>:<span class='no'>p</span>,]
 <span class='no'>hmm</span>$<span class='no'>theta</span> <span class='kw'>=</span> <span class='no'>hmm</span>$<span class='no'>theta</span>[<span class='fl'>1</span>:<span class='no'>p</span>,]
-<span class='co'># Generate group knockoffs</span>
-<span class='no'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>1</span>,<span class='no'>p</span>)
+<span class='co'># Generate knockoffs</span>
+<span class='no'>Xk</span> <span class='kw'>=</span> <span class='fu'>knockoffGenotypes</span>(<span class='no'>X</span>, <span class='no'>hmm</span>$<span class='no'>r</span>, <span class='no'>hmm</span>$<span class='no'>alpha</span>, <span class='no'>hmm</span>$<span class='no'>theta</span>)
+<span class='co'># Generate group-knockoffs for groups of size 3</span>
+<span class='no'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='no'>p</span>), <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>length.out</span><span class='kw'>=</span><span class='no'>p</span>)
 <span class='no'>Xk</span> <span class='kw'>=</span> <span class='fu'>knockoffGenotypes</span>(<span class='no'>X</span>, <span class='no'>hmm</span>$<span class='no'>r</span>, <span class='no'>hmm</span>$<span class='no'>alpha</span>, <span class='no'>hmm</span>$<span class='no'>theta</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>groups</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

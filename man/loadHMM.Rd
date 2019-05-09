@@ -2,7 +2,7 @@
 % Please edit documentation in R/fastphase.R
 \name{loadHMM}
 \alias{loadHMM}
-\title{Load the parameter estimates obtained by fastPHASE}
+\title{Load HMM parameters fitted by fastPHASE}
 \usage{
 loadHMM(r_file, alpha_file, theta_file, char_file, compact = TRUE,
   phased = FALSE)
@@ -55,9 +55,7 @@ hmm.large = loadHMM(r_file, alpha_file, theta_file, char_file, compact=FALSE)
 
 }
 \references{
-Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
-  Am J Hum Genet (2006).
-  \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
+\insertRef{scheet2006}{SNPknock}
 }
 \seealso{
 Other fastPHASE: \code{\link{runFastPhase}},

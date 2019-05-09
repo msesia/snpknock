@@ -2,7 +2,7 @@
 % Please edit documentation in R/knockoffs.R
 \name{knockoffHMM}
 \alias{knockoffHMM}
-\title{Group knockoff copies of a hidden Markov model}
+\title{Group knockoffs of hidden Markov models}
 \usage{
 knockoffHMM(X, pInit, Q, pEmit, groups = NULL, seed = 123,
   cluster = NULL, display_progress = FALSE)
@@ -29,7 +29,7 @@ from each of the K hidden states and the p variables.}
 An integer matrix of size n-by-p containing the knockoff variables.
 }
 \description{
-This function constructs knockoff copies of variables distributed as a hidden Markov model.
+This function constructs knockoffs of variables distributed as a hidden Markov model.
 }
 \details{
 Each element of the matrix X should be an integer value between 0 and M-1.
@@ -38,6 +38,7 @@ The emission propability matrices contained in pEmit are defined such that \eqn{
 where \eqn{H_j} is the latent variable associated to \eqn{X_j}.
 }
 \examples{
+# Generate data
 p=10; K=5; M=3;
 pInit = rep(1/K,K)
 Q = array(stats::runif((p-1)*K*K),c(p-1,K,K))
@@ -45,13 +46,16 @@ for(j in 1:(p-1)) { Q[j,,] = Q[j,,] / rowSums(Q[j,,]) }
 pEmit = array(stats::runif(p*M*K),c(p,M,K))
 for(j in 1:p) { pEmit[j,,] = pEmit[j,,] / rowSums(pEmit[j,,]) }
 X = sampleHMM(pInit, Q, pEmit, n=20)
+# Generate knockoffs
 Xk = knockoffHMM(X, pInit, Q, pEmit)
+# Generate group-knockoffs for groups of size 3
+groups = rep(seq(p), each=3, length.out=p)
+Xk = knockoffHMM(X, pInit, Q, pEmit, groups=groups)
 
 }
 \references{
-Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-  arXiv:1706.04677 (2017).
-  \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
+\insertRef{sesia2019}{SNPknock}
+  \insertRef{sesia2019multi}{SNPknock}
 }
 \seealso{
 Other knockoffs: \code{\link{knockoffDMC}},

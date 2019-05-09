@@ -1,6 +1,6 @@
-#' Group knockoff copies of a discrete Markov chain
+#' Group knockoffs of discrete Markov chains
 #'
-#' This function constructs knockoff copies of variables distributed as a discrete Markov chain.
+#' This function constructs knockoffs of variables distributed as a discrete Markov chain.
 #'
 #' @param X an integer matrix of size n-by-p containing the original variables.
 #' @param pInit an array of length K, containing the marginal distribution of the states for the first variable.
@@ -18,17 +18,21 @@
 #' The transition matrices contained in Q are defined such that \eqn{P[X_{j+1}=k|X_{j}=l]=Q[j,l,k]}.
 #'
 #' @references
-#'   Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-#'   arXiv:1706.04677 (2017).
-#'   \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
+#'   \insertRef{sesia2019}{SNPknock}
+#'   \insertRef{sesia2019multi}{SNPknock}
 #'
 #' @examples
-#' p=10; K=5;
+#' # Generate data
+#' p = 10; K = 5;
 #' pInit = rep(1/K,K)
 #' Q = array(stats::runif((p-1)*K*K),c(p-1,K,K))
 #' for(j in 1:(p-1)) { Q[j,,] = Q[j,,] / rowSums(Q[j,,]) }
 #' X = sampleDMC(pInit, Q, n=20)
+#' # Generate knockoffs
 #' Xk = knockoffDMC(X, pInit, Q)
+#' # Generate group-knockoffs for groups of size 3
+#' groups = rep(seq(p), each=3, length.out=p)
+#' Xk = knockoffDMC(X, pInit, Q, groups=groups)
 #'
 #' @export
 knockoffDMC <- function(X, pInit, Q, groups=NULL, seed=123, cluster=NULL, display_progress=FALSE) {
@@ -87,9 +91,9 @@ knockoffDMC <- function(X, pInit, Q, groups=NULL, seed=123, cluster=NULL, displa
   return(Xk)
 }
 
-#'Group knockoff copies of a hidden Markov model
+#'Group knockoffs of hidden Markov models
 #'
-#' This function constructs knockoff copies of variables distributed as a hidden Markov model.
+#' This function constructs knockoffs of variables distributed as a hidden Markov model.
 #'
 #' @param X an integer matrix of size n-by-p containing the original variables.
 #' @param pInit an array of length K, containing the marginal distribution of the states for the first variable.
@@ -111,11 +115,11 @@ knockoffDMC <- function(X, pInit, Q, groups=NULL, seed=123, cluster=NULL, displa
 #' where \eqn{H_j} is the latent variable associated to \eqn{X_j}.
 #'
 #' @references
-#'   Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-#'   arXiv:1706.04677 (2017).
-#'   \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
+#'   \insertRef{sesia2019}{SNPknock}
+#'   \insertRef{sesia2019multi}{SNPknock}
 #'
 #' @examples
+#' # Generate data
 #' p=10; K=5; M=3;
 #' pInit = rep(1/K,K)
 #' Q = array(stats::runif((p-1)*K*K),c(p-1,K,K))
@@ -123,7 +127,11 @@ knockoffDMC <- function(X, pInit, Q, groups=NULL, seed=123, cluster=NULL, displa
 #' pEmit = array(stats::runif(p*M*K),c(p,M,K))
 #' for(j in 1:p) { pEmit[j,,] = pEmit[j,,] / rowSums(pEmit[j,,]) }
 #' X = sampleHMM(pInit, Q, pEmit, n=20)
+#' # Generate knockoffs
 #' Xk = knockoffHMM(X, pInit, Q, pEmit)
+#' # Generate group-knockoffs for groups of size 3
+#' groups = rep(seq(p), each=3, length.out=p)
+#' Xk = knockoffHMM(X, pInit, Q, pEmit, groups=groups)
 #'
 #' @export
 knockoffHMM <- function(X, pInit, Q, pEmit, groups=NULL, seed=123, cluster=NULL, display_progress=FALSE) {

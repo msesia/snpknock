@@ -14,9 +14,7 @@
 #' The transition matrices contained in Q are defined such that \eqn{P[X_{j+1}=k|X_{j}=l]=Q[j,l,k]}.
 #'
 #' @references
-#'   Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-#'   arXiv:1706.04677 (2017).
-#'   \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
+#'   \insertRef{sesia2019}{SNPknock}
 #'
 #' @examples
 #' p=10; K=5;
@@ -67,9 +65,7 @@ sampleDMC <- function(pInit, Q, n=1) {
 #' where \eqn{H_j} is the latent variable associated to \eqn{X_j}.
 #'
 #' @references
-#'   Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-#'   arXiv:1706.04677 (2017).
-#'   \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
+#'   \insertRef{sesia2019}{SNPknock}
 #'
 #' @examples
 #' p=10; K=5; M=3;

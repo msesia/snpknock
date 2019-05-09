@@ -1,4 +1,4 @@
-#' Calls fastPHASE to fit an HMM to genotype data
+#' Fit an HMM to genetic data using fastPHASE
 #'
 #' This function provides a wrapper for the fastPHASE executable in order to fit an HMM to either
 #' unphased genotype data or phased haplotype data.
@@ -37,10 +37,8 @@
 #' \link{loadHMM}.
 #'
 #' @references
-#'   Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
-#'   Am J Hum Genet (2006).
-#'   \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
-#'
+#'   \insertRef{scheet2006}{SNPknock}
+#'   
 #' @examples
 #' fp_path  = "~/bin/fastPHASE" # Path to the fastPHASE executable
 #'
@@ -103,9 +101,9 @@ If you have not downloaded it yet, you can obtain fastPHASE from: http://scheet.
   return(out_path)
 }
 
-#' Convert a genetic matrix X into the fastPHASE input format
+#' Convert genotypes X into the fastPHASE input format
 #'
-#' This function convert a genetic matrix X into the fastPHASE input format and saves
+#' This function converts a genetic matrix X into the fastPHASE input format and saves
 #' it to a user-specified file. Then, an HMM can be fitted by calling fastPHASE with
 #' \link{runFastPhase}.
 #'
@@ -122,9 +120,7 @@ If you have not downloaded it yet, you can obtain fastPHASE from: http://scheet.
 #' @family fastPHASE
 #'
 #' @references
-#'   Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
-#'   Am J Hum Genet (2006).
-#'   \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
+#'   \insertRef{scheet2006}{SNPknock}
 #'
 #' @examples
 #' # Convert unphased genotypes
@@ -209,7 +205,7 @@ writeXtoInp <- function(X, phased=FALSE, out_file=NULL) {
   return(out_file)
 }
 
-#' Load the parameter estimates obtained by fastPHASE
+#' Load HMM parameters fitted by fastPHASE
 #'
 #' This function loads the parameter estimates obtained by fastPHASE (see \link{runFastPhase})
 #' and assembles the Li and Stephens HMM, in the format required by the knockoff generation functions
@@ -238,9 +234,7 @@ writeXtoInp <- function(X, phased=FALSE, out_file=NULL) {
 #' (either unphased or phased), in the format required by the knockoff generation function \link{knockoffHMM}.
 #' 
 #' @references
-#'   Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
-#'   Am J Hum Genet (2006).
-#'   \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
+#'   \insertRef{scheet2006}{SNPknock}
 #'
 #' @examples
 #' # Specify the location of the fastPHASE output files containing the parameter estimates.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fastphase.R
 \name{runFastPhase}
 \alias{runFastPhase}
-\title{Calls fastPHASE to fit an HMM to genotype data}
+\title{Fit an HMM to genetic data using fastPHASE}
 \usage{
 runFastPhase(fp_path, X_file, out_path = NULL, K = 12, numit = 25,
   phased = FALSE, seed = 1)
@@ -67,9 +67,7 @@ fp_outPath = runFastPhase(fp_path, H_file, phased=TRUE)
 
 }
 \references{
-Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
-  Am J Hum Genet (2006).
-  \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
+\insertRef{scheet2006}{SNPknock}
 }
 \seealso{
 Other fastPHASE: \code{\link{loadHMM}},

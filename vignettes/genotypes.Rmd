@@ -3,23 +3,25 @@ title: "Using SNPknock with Genetic Data"
 author: "Matteo Sesia (msesia@stanford.edu)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-bibliography: bibliography.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{Using SNPknock with Genetic Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
-  
-This vignette illustrates the usage of the `SNPknock` package in combination with the imputation software fastPHASE to create knockoff copies of unphased genotypes or phased haplotypes [@Sesia2017]. Since `fastPHASE` is not available as an R package, this particular functionality of `SNPknock` requires the user to first obtain a copy of `fastPHASE`. 
-  
+
+This vignette illustrates the basic usage of the `SNPknock` package in combination with the phasing software fastPHASE [@scheet2006] to create knockoffs of unphased genotypes or phased haplotypes [@sesia2019,@sesia2019multi]. Since `fastPHASE` is not available as an R package, this functionality of `SNPknock` requires the user to first obtain a copy of `fastPHASE`.
+
+To learn more about the application of `SNPknock` to large genome-wide association studies [@sesia2019multi], visit: <https://msesia.github.io/knockoffzoom/>.
+
 
 ## Obtaining `fastPHASE`
 
-fastPHASE is a program whose purpose is to estimate missing genotypes and unobserved haplotypes. Its underlying algorithm is based on the hidden Markov model described in [@Scheet2006].
+fastPHASE is a phasing and imputation tool based on the hidden Markov model described in [@scheet2006].
 
 Binary executables for Linux and Mac OS are available from <http://scheet.org/software.html>.
 
-Before continuing with this tutorial, download and extract the fastPHASE tarball from the above link and move the `fastPHASE` executable file into a convenient directory (e.g. "~/bin/").
+Before continuing with this tutorial, download the fastPHASE tarball from the above link and extract the `fastPHASE` executable file into a convenient directory (e.g. "~/bin/").
 
 ## Knockoffs for unphased genotypes
 
@@ -35,9 +37,9 @@ table(X)
 ```
 
 Below, we show how to fit a hidden Markov model to this data, with the help of `fastPHASE`.
-Since `fastPHASE` takes as input genotype sequences in ".inp" format, we must first convert 
+Since `fastPHASE` takes as input genotype sequences in ".inp" format, we must first convert
 the X matrix by calling `writeXtoInp`.
-By default, this function will write onto a temporary file in the R temporary directory. 
+By default, this function will write onto a temporary file in the R temporary directory.
 ```{r}
 # Convert X into the suitable fastPHASE input format, write it into a temporary file
 # and return the path to that file.
@@ -101,9 +103,9 @@ table(H)
 ```
 
 Below, we show how to fit a hidden Markov model to this data, with the help of `fastPHASE`.
-Since `fastPHASE` takes as input haplotype sequences in ".inp" format, we must first convert 
+Since `fastPHASE` takes as input haplotype sequences in ".inp" format, we must first convert
 the H matrix by calling `writeXtoInp`.
-By default, this function will write onto a temporary file in the R temporary directory. 
+By default, this function will write onto a temporary file in the R temporary directory.
 ```{r}
 # Convert X into the suitable fastPHASE input format, write it into a temporary file
 # and return the path to that file.
@@ -155,3 +157,5 @@ table(Hk)
 ## See also
 
 If you want to see some basic usage of `SNPknock`, see the [introductory vignette](SNPknock.html).
+
+If you want to learn about `SNPknock` for large genome-wide association studies [@sesia2019multi], see <https://msesia.github.io/knockoffzoom/>.

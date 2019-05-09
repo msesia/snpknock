@@ -91,7 +91,7 @@
       <h1>Using SNPknock with Genetic Data</h1>
                         <h4 class="author">Matteo Sesia (<a href="mailto:msesia@stanford.edu">msesia@stanford.edu</a>)</h4>
             
-            <h4 class="date">2019-05-01</h4>
+            <h4 class="date">2019-05-09</h4>
       
       
       <div class="hidden name"><code>genotypes.Rmd</code></div>
@@ -100,14 +100,15 @@
 
     
     
-<p>This vignette illustrates the usage of the <code>SNPknock</code> package in combination with the imputation software fastPHASE to create knockoff copies of unphased genotypes or phased haplotypes <span class="citation">(Sesia, Sabatti, and Candès 2019)</span>. Since <code>fastPHASE</code> is not available as an R package, this particular functionality of <code>SNPknock</code> requires the user to first obtain a copy of <code>fastPHASE</code>.</p>
+<p>This vignette illustrates the basic usage of the <code>SNPknock</code> package in combination with the phasing software fastPHASE <span class="citation">(Scheet and Stephens 2006)</span> to create knockoffs of unphased genotypes or phased haplotypes <span class="citation">(M. Sesia, Sabatti, and Candès 2019,<span class="citation">Matteo Sesia et al. (2019)</span>)</span>. Since <code>fastPHASE</code> is not available as an R package, this functionality of <code>SNPknock</code> requires the user to first obtain a copy of <code>fastPHASE</code>.</p>
+<p>To learn more about the application of <code>SNPknock</code> to large genome-wide association studies <span class="citation">(Matteo Sesia et al. 2019)</span>, visit: <a href="https://msesia.github.io/knockoffzoom/" class="uri">https://msesia.github.io/knockoffzoom/</a>.</p>
 <div id="obtaining-fastphase" class="section level2">
 <h2 class="hasAnchor">
 <a href="#obtaining-fastphase" class="anchor"></a>Obtaining <code>fastPHASE</code>
 </h2>
-<p>fastPHASE is a program whose purpose is to estimate missing genotypes and unobserved haplotypes. Its underlying algorithm is based on the hidden Markov model described in <span class="citation">(Scheet and Stephens 2006)</span>.</p>
+<p>fastPHASE is a phasing and imputation tool based on the hidden Markov model described in <span class="citation">(Scheet and Stephens 2006)</span>.</p>
 <p>Binary executables for Linux and Mac OS are available from <a href="http://scheet.org/software.html" class="uri">http://scheet.org/software.html</a>.</p>
-<p>Before continuing with this tutorial, download and extract the fastPHASE tarball from the above link and move the <code>fastPHASE</code> executable file into a convenient directory (e.g. “~/bin/”).</p>
+<p>Before continuing with this tutorial, download the fastPHASE tarball from the above link and extract the <code>fastPHASE</code> executable file into a convenient directory (e.g. “~/bin/”).</p>
 </div>
 <div id="knockoffs-for-unphased-genotypes" class="section level2">
 <h2 class="hasAnchor">
@@ -116,43 +117,43 @@
 <h3 class="hasAnchor">
 <a href="#fitting-the-hidden-markov-model-on-genotype-data" class="anchor"></a>Fitting the hidden Markov model on genotype data</h3>
 <p>A small synthetic dataset of 1454 unphased genotype SNPs from 100 individuals can be found in the package installation directory. We can load it with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SNPknock)
-X_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes.RData"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/load">load</a></span>(X_file)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(X)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SNPknock)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">X_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes.RData"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/load">load</a></span>(X_file)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(X)</a></code></pre></div>
 <pre><code>## X
 ##      0      1      2 
 ## 130548  90112  25540</code></pre>
 <p>Below, we show how to fit a hidden Markov model to this data, with the help of <code>fastPHASE</code>. Since <code>fastPHASE</code> takes as input genotype sequences in “.inp” format, we must first convert the X matrix by calling <code>writeXtoInp</code>. By default, this function will write onto a temporary file in the R temporary directory.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Convert X into the suitable fastPHASE input format, write it into a temporary file</span>
-<span class="co"># and return the path to that file.</span>
-Xinp_file =<span class="st"> </span><span class="kw"><a href="../reference/writeXtoInp.html">writeXtoInp</a></span>(X)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Convert X into the suitable fastPHASE input format, write it into a temporary file</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># and return the path to that file.</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">Xinp_file =<span class="st"> </span><span class="kw"><a href="../reference/writeXtoInp.html">writeXtoInp</a></span>(X)</a></code></pre></div>
 <p>Assuming that we have already downloaded <code>fastPHASE</code>, we can call it to fit the hidden Markov model to X.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fp_path  =<span class="st"> "~/bin/fastphase"</span> <span class="co"># Path to the fastPHASE executable</span>
-<span class="co"># Call fastPHASE and return the path to the parameter estimate files</span>
-fp_outPath =<span class="st"> </span><span class="kw"><a href="../reference/runFastPhase.html">runFastPhase</a></span>(fp_path, Xinp_file, <span class="dt">K =</span> <span class="dv">12</span>, <span class="dt">numit =</span> <span class="dv">15</span>)</code></pre></div>
-<pre><code>## ~/bin/fastphase -Pp -T1 -K12 -g -H-4 -C15 -S1 -o'/tmp/RtmppADx9I/file92558c5a73f' /tmp/RtmppADx9I/file925584cdd84.inp</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">fp_path  =<span class="st"> "~/bin/fastphase"</span> <span class="co"># Path to the fastPHASE executable</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># Call fastPHASE and return the path to the parameter estimate files</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">fp_outPath =<span class="st"> </span><span class="kw"><a href="../reference/runFastPhase.html">runFastPhase</a></span>(fp_path, Xinp_file, <span class="dt">K =</span> <span class="dv">12</span>, <span class="dt">numit =</span> <span class="dv">15</span>)</a></code></pre></div>
+<pre><code>## ~/bin/fastphase -Pp -T1 -K12 -g -H-4 -C15 -S1 -o'/tmp/RtmpBEaBqM/file2e1842baf96f' /tmp/RtmpBEaBqM/file2e182877aa24.inp</code></pre>
 <p>Above, the <code>SNPknock</code> package could not find <code>fastPHASE</code> because we did not provide the correct path (we cannot include third-party executable files within this package). However, if you install <code>fastPHASE</code> separately and provide <code>SNPknock</code> with the correct path, this will work.</p>
 <p>If the previous step worked for you, you can find the parameter estimates produced by <code>fastPHASE</code> in the following files:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_rhat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)
-alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_alphahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)
-theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_thetahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)
-char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_origchars"</span>, <span class="dt">sep=</span><span class="st">""</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_rhat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_alphahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_thetahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_origchars"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a></code></pre></div>
 <p>Otherwise, for the sake of this tutorial, you can use the example parameter files provided in the package installation directory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes_rhat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)
-alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes_alphahat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)
-theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes_thetahat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)
-char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes_origchars"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes_rhat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes_alphahat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes_thetahat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"genotypes_origchars"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a></code></pre></div>
 <p>Then, we can construct the hidden Markov model with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hmm =<span class="st"> </span><span class="kw"><a href="../reference/loadHMM.html">loadHMM</a></span>(r_file, alpha_file, theta_file, char_file)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">hmm =<span class="st"> </span><span class="kw"><a href="../reference/loadHMM.html">loadHMM</a></span>(r_file, alpha_file, theta_file, char_file)</a></code></pre></div>
 </div>
 </div>
 <div id="generating-knockoff-genotypes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#generating-knockoff-genotypes" class="anchor"></a>Generating knockoff genotypes</h2>
 <p>Finally, we can use the hidden Markov model created above to generate knockoffs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xk =<span class="st"> </span><span class="kw"><a href="../reference/knockoffGenotypes.html">knockoffGenotypes</a></span>(X, hmm$r, hmm$alpha, hmm$theta)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(Xk)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">Xk =<span class="st"> </span><span class="kw"><a href="../reference/knockoffGenotypes.html">knockoffGenotypes</a></span>(X, hmm<span class="op">$</span>r, hmm<span class="op">$</span>alpha, hmm<span class="op">$</span>theta)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(Xk)</a></code></pre></div>
 <pre><code>## Xk
 ##      0      1      2 
 ## 130114  90466  25620</code></pre>
@@ -164,43 +165,43 @@ char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocu
 <h3 class="hasAnchor">
 <a href="#fitting-the-hidden-markov-model-on-haplotype-data" class="anchor"></a>Fitting the hidden Markov model on haplotype data</h3>
 <p>A small synthetic dataset of 1454 phased haplotype SNPs from 100 individuals can be found in the package installation directory. We can load it with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SNPknock)
-H_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes.RData"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/load">load</a></span>(H_file)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(H)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SNPknock)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">H_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes.RData"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/load">load</a></span>(H_file)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(H)</a></code></pre></div>
 <pre><code>## H
 ##      0      1 
 ## 351208 141192</code></pre>
 <p>Below, we show how to fit a hidden Markov model to this data, with the help of <code>fastPHASE</code>. Since <code>fastPHASE</code> takes as input haplotype sequences in “.inp” format, we must first convert the H matrix by calling <code>writeXtoInp</code>. By default, this function will write onto a temporary file in the R temporary directory.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Convert X into the suitable fastPHASE input format, write it into a temporary file</span>
-<span class="co"># and return the path to that file.</span>
-Hinp_file =<span class="st"> </span><span class="kw"><a href="../reference/writeXtoInp.html">writeXtoInp</a></span>(H, <span class="dt">phased =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Convert X into the suitable fastPHASE input format, write it into a temporary file</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co"># and return the path to that file.</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">Hinp_file =<span class="st"> </span><span class="kw"><a href="../reference/writeXtoInp.html">writeXtoInp</a></span>(H, <span class="dt">phased =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Assuming that we have already downloaded <code>fastPHASE</code>, we can call it to fit the hidden Markov model to X.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fp_path  =<span class="st"> "~/bin/fastPHASE"</span> <span class="co"># Path to the fastPHASE executable</span>
-<span class="co"># Call fastPHASE and return the path to the parameter estimate files</span>
-fp_outPath =<span class="st"> </span><span class="kw"><a href="../reference/runFastPhase.html">runFastPhase</a></span>(fp_path, Hinp_file, <span class="dt">K =</span> <span class="dv">12</span>, <span class="dt">numit =</span> <span class="dv">15</span>, <span class="dt">phased =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">fp_path  =<span class="st"> "~/bin/fastPHASE"</span> <span class="co"># Path to the fastPHASE executable</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co"># Call fastPHASE and return the path to the parameter estimate files</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">fp_outPath =<span class="st"> </span><span class="kw"><a href="../reference/runFastPhase.html">runFastPhase</a></span>(fp_path, Hinp_file, <span class="dt">K =</span> <span class="dv">12</span>, <span class="dt">numit =</span> <span class="dv">15</span>, <span class="dt">phased =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## SNPknock could find the fastPHASE executable: '~/bin/fastPHASE' does not exist.
 ## If you have not downloaded it yet, you can obtain fastPHASE from: http://scheet.org/software.html</code></pre>
 <p>Above, the <code>SNPknock</code> package could not find <code>fastPHASE</code> because we did not provide the correct path (we cannot include third-party executable files within this package). However, if you install <code>fastPHASE</code> separately and provide <code>SNPknock</code> with the correct path, this will work.</p>
 <p>If the previous step worked for you, you can find the parameter estimates produced by <code>fastPHASE</code> in the following files:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_rhat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)
-alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_alphahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)
-theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_thetahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)
-char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_origchars"</span>, <span class="dt">sep=</span><span class="st">""</span>)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_rhat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_alphahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_thetahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_origchars"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a></code></pre></div>
 <p>Otherwise, for the sake of this tutorial, you can use the example parameter files provided in the package installation directory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes_rhat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)
-alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes_alphahat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)
-theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes_thetahat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)
-char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes_origchars"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes_rhat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes_alphahat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes_thetahat.txt"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"haplotypes_origchars"</span>, <span class="dt">package =</span> <span class="st">"SNPknock"</span>)</a></code></pre></div>
 <p>Then, we can construct the hidden Markov model with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hmm =<span class="st"> </span><span class="kw"><a href="../reference/loadHMM.html">loadHMM</a></span>(r_file, alpha_file, theta_file, char_file)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">hmm =<span class="st"> </span><span class="kw"><a href="../reference/loadHMM.html">loadHMM</a></span>(r_file, alpha_file, theta_file, char_file)</a></code></pre></div>
 </div>
 <div id="generating-knockoff-haplotypes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#generating-knockoff-haplotypes" class="anchor"></a>Generating knockoff haplotypes</h3>
 <p>Finally, we can use the hidden Markov model created above to generate knockoffs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Hk =<span class="st"> </span><span class="kw"><a href="../reference/knockoffHaplotypes.html">knockoffHaplotypes</a></span>(H, hmm$r, hmm$alpha, hmm$theta)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(Hk)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">Hk =<span class="st"> </span><span class="kw"><a href="../reference/knockoffHaplotypes.html">knockoffHaplotypes</a></span>(H, hmm<span class="op">$</span>r, hmm<span class="op">$</span>alpha, hmm<span class="op">$</span>theta)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(Hk)</a></code></pre></div>
 <pre><code>## Hk
 ##      0      1 
 ## 351155 141245</code></pre>
@@ -210,12 +211,16 @@ char_file  =<span class="st"> </span><span class="kw"><a href="https://www.rdocu
 <h2 class="hasAnchor">
 <a href="#see-also" class="anchor"></a>See also</h2>
 <p>If you want to see some basic usage of <code>SNPknock</code>, see the <a href="SNPknock.html">introductory vignette</a>.</p>
+<p>If you want to learn about <code>SNPknock</code> for large genome-wide association studies <span class="citation">(Matteo Sesia et al. 2019)</span>, see <a href="https://msesia.github.io/knockoffzoom/" class="uri">https://msesia.github.io/knockoffzoom/</a>.</p>
 <div id="refs" class="references">
-<div id="ref-Scheet2006">
-<p>Scheet, Paul, and Matthew Stephens. 2006. “A Fast and Flexible Statistical Model for Large-Scale Population Genotype Data: Applications to Inferring Missing Genotypes and Haplotypic Phase.” <em>Am J Hum Genet</em> 78 (4). The American Society of Human Genetics: 629–44. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1424677/" class="uri">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1424677/</a>.</p>
+<div id="ref-scheet2006">
+<p>Scheet, P., and M. Stephens. 2006. “A Fast and Flexible Statistical Model for Large-Scale Population Genotype Data: Applications to Inferring Missing Genotypes and Haplotypic Phase.” <em>Am. J. Hum. Genet.</em> 78:629–44. <a href="https://doi.org/10.1086/502802" class="uri">https://doi.org/10.1086/502802</a>.</p>
 </div>
-<div id="ref-Sesia2017">
-<p>Sesia, M, C Sabatti, and E J Candès. 2019. “Gene hunting with hidden Markov model knockoffs.” <em>Biometrika</em> 106 (1): 1–18. doi:<a href="https://doi.org/10.1093/biomet/asy033">10.1093/biomet/asy033</a>.</p>
+<div id="ref-sesia2019">
+<p>Sesia, M., C. Sabatti, and E. J. Candès. 2019. “Gene Hunting with Hidden Markov Model Knockoffs.” <em>Biometrika</em> 106:1–18. <a href="https://doi.org/10.1093/biomet/asy033" class="uri">https://doi.org/10.1093/biomet/asy033</a>.</p>
+</div>
+<div id="ref-sesia2019multi">
+<p>Sesia, Matteo, Eugene Katsevich, Stephen Bates, Emmanuel Candès, and Chiara Sabatti. 2019. “Multi-Resolution Localization of Causal Variants Across the Genome.” <em>bioRxiv</em>. Cold Spring Harbor Laboratory. <a href="https://doi.org/10.1101/631390" class="uri">https://doi.org/10.1101/631390</a>.</p>
 </div>
 </div>
 </div>

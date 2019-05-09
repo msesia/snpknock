@@ -2,7 +2,7 @@
 % Please edit documentation in R/fastphase.R
 \name{writeXtoInp}
 \alias{writeXtoInp}
-\title{Convert a genetic matrix X into the fastPHASE input format}
+\title{Convert genotypes X into the fastPHASE input format}
 \usage{
 writeXtoInp(X, phased = FALSE, out_file = NULL)
 }
@@ -22,7 +22,7 @@ A string containing the path of the output file onto which X was written. This i
 when the default option for `out_file` is used and X is written onto a temporary file in the R temporary directory.
 }
 \description{
-This function convert a genetic matrix X into the fastPHASE input format and saves
+This function converts a genetic matrix X into the fastPHASE input format and saves
 it to a user-specified file. Then, an HMM can be fitted by calling fastPHASE with
 \link{runFastPhase}.
 }
@@ -43,9 +43,7 @@ Hinp_file = writeXtoInp(H, phased=TRUE)
 
 }
 \references{
-Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
-  Am J Hum Genet (2006).
-  \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
+\insertRef{scheet2006}{SNPknock}
 }
 \seealso{
 Other fastPHASE: \code{\link{loadHMM}},

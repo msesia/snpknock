@@ -2,7 +2,7 @@
 % Please edit documentation in R/knockoffs.R
 \name{knockoffDMC}
 \alias{knockoffDMC}
-\title{Group knockoff copies of a discrete Markov chain}
+\title{Group knockoffs of discrete Markov chains}
 \usage{
 knockoffDMC(X, pInit, Q, groups = NULL, seed = 123, cluster = NULL,
   display_progress = FALSE)
@@ -26,25 +26,29 @@ knockoffDMC(X, pInit, Q, groups = NULL, seed = 123, cluster = NULL,
 An integer matrix of size n-by-p containing the knockoff variables.
 }
 \description{
-This function constructs knockoff copies of variables distributed as a discrete Markov chain.
+This function constructs knockoffs of variables distributed as a discrete Markov chain.
 }
 \details{
 Each element of the matrix X should be an integer value between 0 and K-1.
 The transition matrices contained in Q are defined such that \eqn{P[X_{j+1}=k|X_{j}=l]=Q[j,l,k]}.
 }
 \examples{
-p=10; K=5;
+# Generate data
+p = 10; K = 5;
 pInit = rep(1/K,K)
 Q = array(stats::runif((p-1)*K*K),c(p-1,K,K))
 for(j in 1:(p-1)) { Q[j,,] = Q[j,,] / rowSums(Q[j,,]) }
 X = sampleDMC(pInit, Q, n=20)
+# Generate knockoffs
 Xk = knockoffDMC(X, pInit, Q)
+# Generate group-knockoffs for groups of size 3
+groups = rep(seq(p), each=3, length.out=p)
+Xk = knockoffDMC(X, pInit, Q, groups=groups)
 
 }
 \references{
-Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-  arXiv:1706.04677 (2017).
-  \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
+\insertRef{sesia2019}{SNPknock}
+  \insertRef{sesia2019multi}{SNPknock}
 }
 \seealso{
 Other knockoffs: \code{\link{knockoffGenotypes}},

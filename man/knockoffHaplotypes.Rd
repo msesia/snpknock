@@ -2,7 +2,7 @@
 % Please edit documentation in R/knockoffs_snp.R
 \name{knockoffHaplotypes}
 \alias{knockoffHaplotypes}
-\title{Group-knockoff copies of phased haplotypes}
+\title{Group-knockoffs of phased haplotypes}
 \usage{
 knockoffHaplotypes(X, r, alpha, theta, groups = NULL, seed = 123,
   cluster = NULL, display_progress = FALSE)
@@ -29,11 +29,11 @@ are assumed to be monotone increasing, starting from 1 (default: NULL).}
 A binary matrix of size n-by-p containing the knockoff variables.
 }
 \description{
-This function efficiently constructs group-knockoff copies of binary variables distributed
+This function efficiently constructs group-knockoffs of binary variables distributed
 according to the Li and Stephens model for phased haplotypes.
 }
 \details{
-Generate group-knockoff copies of phased haplotypes according to the Li and Stephens HMM.
+Generate group-knockoffs of phased haplotypes according to the Li and Stephens HMM.
 The required model parameters can be obtained through fastPHASE and loaded with \link{loadHMM}.
 This function is more efficient than \link{knockoffHMM} for haplotype data.
 }
@@ -56,19 +56,15 @@ hmm = loadHMM(r_file, alpha_file, theta_file, char_file)
 hmm$r = hmm$r[1:p]
 hmm$alpha = hmm$alpha[1:p,]
 hmm$theta = hmm$theta[1:p,]
-# Generate group knockoffs
-groups = seq(1,p)
+# Generate knockoffs
+Xk = knockoffHaplotypes(X, hmm$r, hmm$alpha, hmm$theta)
+# Generate group-knockoffs for groups of size 3
+groups = rep(seq(p), each=3, length.out=p)
 Xk = knockoffHaplotypes(X, hmm$r, hmm$alpha, hmm$theta, groups=groups)
 
 }
 \references{
-Sesia et al., Gene Hunting with Knockoffs for Hidden Markov Models,
-  arXiv:1706.04677 (2017).
-  \href{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}{https://statweb.stanford.edu/~candes/papers/HMM_Knockoffs.pdf}
-
-Scheet and Stephens,  A fast and flexible statistical model for large-scale population genotype data,
-  Am J Hum Genet (2006).
-  \href{http://www.sciencedirect.com/science/article/pii/S000292970763701X}{http://www.sciencedirect.com/science/article/pii/S000292970763701X}
+\insertRef{sesia2019multi}{SNPknock}
 }
 \seealso{
 Other knockoffs: \code{\link{knockoffDMC}},

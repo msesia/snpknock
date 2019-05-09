@@ -3,19 +3,19 @@ title: "Using SNPknock in R"
 author: "Matteo Sesia (msesia@stanford.edu)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-bibliography: bibliography.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{Using SNPknock in R}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
 
-This vignette illustrates the usage of the `SNPknock` package for creating knockoff copies of variables distributed as discrete Markov chains and hidden Markov models [@Sesia2017]. For simplicity, we will use synthetic data.
+This vignette illustrates the usage of the `SNPknock` package for creating knockoffs of discrete Markov chains and hidden Markov models [@sesia2019]. For simplicity, we will use synthetic data.
 
-The `SNPknock` package also provides a simple interface to the genotype imputation software `fastPhase`, which can be used to fit hidden Markov models for genotype data. Since `fastPhase` is not available as an R package, this particular functionality of `SNPknock` cannot be demonstrated here. A tutorial showing how to use a combination of `SNPknock` and `fastPhase` to create knockoff copies of genotype data can be found here: [https://web.stanford.edu/~msesia/software.html](https://web.stanford.edu/~msesia/software.html).
+The `SNPknock` package also provides a simple interface to the genotype imputation software `fastPhase`, which can be used to fit hidden Markov models for genotype data. Since `fastPhase` is not available as an R package, this particular functionality of `SNPknock` cannot be demonstrated here. A tutorial showing how to use a combination of `SNPknock` and `fastPhase` to create knockoffs of genotype data can be found here: [https://web.stanford.edu/~msesia/software.html](https://web.stanford.edu/~msesia/software.html).
 
 
-## Knockoff copies of discrete Markov chains
+## Knockoffs of discrete Markov chains
 
 First, we verify that the `SNPknock` can be loaded.
 ```{r}
@@ -23,7 +23,7 @@ library(SNPknock)
 ```
 
 We define a Markov chain model with 50 variables, each taking one of 5 possible values.
-We specify a uniform marginal distribution for the first variable in the chain and create 49 
+We specify a uniform marginal distribution for the first variable in the chain and create 49
 transition matrices with randomly sampled entries.
 ```{r}
 p=50; # Number of variables in the model
@@ -32,9 +32,9 @@ K=5;  # Number of possible states for each variable
 pInit = rep(1/K,K)
 # Create p-1 transition matrices
 Q = array(stats::runif((p-1)*K*K),c(p-1,K,K))
-for(j in 1:(p-1)) { 
+for(j in 1:(p-1)) {
   Q[j,,] = Q[j,,] + diag(rep(1,K))
-  Q[j,,] = Q[j,,] / rowSums(Q[j,,]) 
+  Q[j,,] = Q[j,,] / rowSums(Q[j,,])
 }
 ```
 We can sample 100 independent observations of this Markov chain using the `SNPknock` package.
@@ -51,11 +51,11 @@ Xk = knockoffDMC(X, pInit, Q)
 print(Xk[1:5,1:10])
 ```
 
-## Knockoff copies of hidden Markov models
+## Knockoffs of hidden Markov models
 
 We define a hidden Markov chain model with 50 variables, each taking one of 3 possible values,
 and 50 latent variables distributed as a Markov chain, each taking one of 5 values.
-We specify a uniform marginal distribution for the first variable in the chain and create 49 
+We specify a uniform marginal distribution for the first variable in the chain and create 49
 transition matrices with randomly sampled entries. We also define an emission distributions
 over the 3 possible emission states, for each of the 50 latent variables and the 5 latent states.
 ```{r}
@@ -67,9 +67,9 @@ pInit = rep(1/K,K)
 # Create p-1 transition matrices
 Q = array(stats::runif((p-1)*K*K),c(p-1,K,K))
 rho = stats::runif(p-1, min = 1, max = 50)
-for(j in 1:(p-1)) { 
+for(j in 1:(p-1)) {
   Q[j,,] = Q[j,,] + rho[j] * diag(rep(1,K))
-  Q[j,,] = Q[j,,] / rowSums(Q[j,,]) 
+  Q[j,,] = Q[j,,] / rowSums(Q[j,,])
 }
 # Create p emission matrices
 pEmit = array(stats::runif(p*M*K),c(p,M,K))
@@ -91,4 +91,4 @@ print(Xk[1:5,1:10])
 
 ## See also
 
-If you want to see how to use `SNPknock` to create knockoff copies of genotype data, see the [genotypes vignette](genotypes.html).
+If you want to see how to use `SNPknock` to create knockoffs of genotype data, see the [genotypes vignette](genotypes.html).
