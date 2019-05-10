@@ -8,8 +8,8 @@ Authors@R: c(
            )                              
 Description: Generate knockoffs for genetic data and hidden Markov models.
   For more information, see the website below and the accompanying papers: 
-  "Gene Hunting with Knockoffs for Hidden Markov Models", Sesia et al., Biometrika, 2019, (https://doi.org/10.1093/biomet/asy033).
-  "Multi-resolution localization of causal variants across the genome", Sesia et al., bioRxiv, 2019, (https://doi.org/10.1101/631390).
+  "Gene Hunting with Knockoffs for Hidden Markov Models", Sesia et al., Biometrika, 2019, (<https://doi.org/10.1093/biomet/asy033>).
+  "Multi-resolution localization of causal variants across the genome", Sesia et al., bioRxiv, 2019, (<https://doi.org/10.1101/631390>).
 License: GPL-3
 Language: en-US
 Depends: R (>= 3.3.0)
