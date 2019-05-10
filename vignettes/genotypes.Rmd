@@ -10,7 +10,7 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-This vignette illustrates the basic usage of the `SNPknock` package in combination with the phasing software `fastphase` [@scheet2006] to create knockoffs of unphased genotypes or phased haplotypes [@sesia2019,@sesia2019multi]. Since `fastphase` is not available as an R package, this functionality of `SNPknock` requires the user to first obtain a copy of `fastphase`.
+This vignette illustrates the basic usage of the `SNPknock` package in combination with the phasing software `fastphase` [@scheet2006] to create knockoffs of unphased genotypes or phased haplotypes [@sesia2019, @sesia2019multi]. Since `fastphase` is not available as an R package, this functionality of `SNPknock` requires the user to first obtain a copy of `fastphase`.
 
 To learn more about the application of `SNPknock` to large genome-wide association studies [@sesia2019multi], visit: <https://msesia.github.io/knockoffzoom/>.
 
