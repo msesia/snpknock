@@ -48,8 +48,6 @@ IntegerMatrix GroupGenotypes_wrapper(SEXP X_, SEXP r_, SEXP alpha_, SEXP theta_,
   IntegerMatrix Xk_ = IntegerMatrix( Dimension(n,p));
   ivector Xk(p,0);
   for(int i=0; i<n; i++) {
-    if (Progress::check_abort() )
-      return (Xk_);
     Xk = knock.sample(ivector(X(i,_).begin(),X(i,_).end()));
     for(int j=0; j<p; j++) {
       Xk_(i,j) = Xk[j];
@@ -83,8 +81,6 @@ IntegerMatrix GroupHaplotypes_wrapper(SEXP X_, SEXP r_, SEXP alpha_, SEXP theta_
   IntegerMatrix Xk_ = IntegerMatrix( Dimension(n,p));
   ivector Xk(p,0);
   for(int i=0; i<n; i++) {
-    if (Progress::check_abort() )
-      return (Xk_);
     Xk = knock.sample(ivector(X(i,_).begin(),X(i,_).end()));
     for(int j=0; j<p; j++) {
       Xk_(i,j) = Xk[j];
@@ -118,8 +114,6 @@ IntegerMatrix knockoffDMC_wrapper(SEXP X_, SEXP pInit_, SEXP Q_, SEXP n_, SEXP p
   IntegerMatrix Xk_ = IntegerMatrix( Dimension(n,p));
   ivector Xk(p,0);
   for(int i=0; i<n; i++) {
-    if (Progress::check_abort() )
-      return (Xk_);
     Xk = knock.sample(ivector(X(i,_).begin(),X(i,_).end()));
     for(int j=0; j<p; j++) {
       Xk_(i,j) = Xk[j];
@@ -156,8 +150,6 @@ IntegerMatrix knockoffHMM_wrapper(SEXP X_, SEXP pInit_, SEXP Q_, SEXP pEmit_,
   IntegerMatrix Xk_ = IntegerMatrix( Dimension(n,p));
   ivector Xk(p,0);
   for(int i=0; i<n; i++) {
-    if (Progress::check_abort() )
-      return (Xk_);
     Xk = knock.sample(ivector(X(i,_).begin(),X(i,_).end()));
     for(int j=0; j<p; j++) {
       Xk_(i,j) = Xk[j];

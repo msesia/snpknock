@@ -10,18 +10,18 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-This vignette illustrates the basic usage of the `SNPknock` package in combination with the phasing software fastPHASE [@scheet2006] to create knockoffs of unphased genotypes or phased haplotypes [@sesia2019,@sesia2019multi]. Since `fastPHASE` is not available as an R package, this functionality of `SNPknock` requires the user to first obtain a copy of `fastPHASE`.
+This vignette illustrates the basic usage of the `SNPknock` package in combination with the phasing software `fastphase` [@scheet2006] to create knockoffs of unphased genotypes or phased haplotypes [@sesia2019,@sesia2019multi]. Since `fastphase` is not available as an R package, this functionality of `SNPknock` requires the user to first obtain a copy of `fastphase`.
 
 To learn more about the application of `SNPknock` to large genome-wide association studies [@sesia2019multi], visit: <https://msesia.github.io/knockoffzoom/>.
 
 
-## Obtaining `fastPHASE`
+## Obtaining `fastphase`
 
-fastPHASE is a phasing and imputation tool based on the hidden Markov model described in [@scheet2006].
+`fastphase` is a phasing and imputation tool based on the hidden Markov model described in [@scheet2006].
 
 Binary executables for Linux and Mac OS are available from <http://scheet.org/software.html>.
 
-Before continuing with this tutorial, download the fastPHASE tarball from the above link and extract the `fastPHASE` executable file into a convenient directory (e.g. "~/bin/").
+Before continuing with this tutorial, download the `fastphase` tarball from the above link and extract the `fastphase` executable file into a convenient directory (e.g. "~/bin/").
 
 ## Knockoffs for unphased genotypes
 
@@ -36,28 +36,28 @@ load(X_file)
 table(X)
 ```
 
-Below, we show how to fit a hidden Markov model to this data, with the help of `fastPHASE`.
-Since `fastPHASE` takes as input genotype sequences in ".inp" format, we must first convert
+Below, we show how to fit a hidden Markov model to this data, with the help of `fastphase`.
+Since `fastphase` takes as input genotype sequences in ".inp" format, we must first convert
 the X matrix by calling `writeXtoInp`.
 By default, this function will write onto a temporary file in the R temporary directory.
 ```{r}
-# Convert X into the suitable fastPHASE input format, write it into a temporary file
+# Convert X into the suitable fastphase input format, write it into a temporary file
 # and return the path to that file.
 Xinp_file = writeXtoInp(X)
 ```
 
-Assuming that we have already downloaded `fastPHASE`, we can call it to fit the hidden Markov model to X.
+Assuming that we have already downloaded `fastphase`, we can call it to fit the hidden Markov model to X.
 ```{r}
-fp_path  = "~/bin/fastphase" # Path to the fastPHASE executable
-# Call fastPHASE and return the path to the parameter estimate files
+fp_path  = "~/bin/fastphase" # Path to the fastphase executable
+# Call fastphase and return the path to the parameter estimate files
 fp_outPath = runFastPhase(fp_path, Xinp_file, K = 12, numit = 15)
 ```
 
-Above, the `SNPknock` package could not find `fastPHASE` because we did not provide the correct path
-(we cannot include third-party executable files within this package). However, if you install `fastPHASE`
+Above, the `SNPknock` package could not find `fastphase` because we did not provide the correct path
+(we cannot include third-party executable files within this package). However, if you install `fastphase`
 separately and provide `SNPknock` with the correct path, this will work.
 
-If the previous step worked for you, you can find the parameter estimates produced by `fastPHASE`
+If the previous step worked for you, you can find the parameter estimates produced by `fastphase`
 in the following files:
 ```{r eval=FALSE}
 r_file = paste(fp_outPath, "_rhat.txt", sep="")
@@ -102,28 +102,28 @@ load(H_file)
 table(H)
 ```
 
-Below, we show how to fit a hidden Markov model to this data, with the help of `fastPHASE`.
-Since `fastPHASE` takes as input haplotype sequences in ".inp" format, we must first convert
+Below, we show how to fit a hidden Markov model to this data, with the help of `fastphase`.
+Since `fastphase` takes as input haplotype sequences in ".inp" format, we must first convert
 the H matrix by calling `writeXtoInp`.
 By default, this function will write onto a temporary file in the R temporary directory.
 ```{r}
-# Convert X into the suitable fastPHASE input format, write it into a temporary file
+# Convert X into the suitable fastphase input format, write it into a temporary file
 # and return the path to that file.
 Hinp_file = writeXtoInp(H, phased = TRUE)
 ```
 
-Assuming that we have already downloaded `fastPHASE`, we can call it to fit the hidden Markov model to X.
+Assuming that we have already downloaded `fastphase`, we can call it to fit the hidden Markov model to X.
 ```{r}
-fp_path  = "~/bin/fastPHASE" # Path to the fastPHASE executable
-# Call fastPHASE and return the path to the parameter estimate files
+fp_path  = "~/bin/fastphase" # Path to the fastphase executable
+# Call fastphase and return the path to the parameter estimate files
 fp_outPath = runFastPhase(fp_path, Hinp_file, K = 12, numit = 15, phased = TRUE)
 ```
 
-Above, the `SNPknock` package could not find `fastPHASE` because we did not provide the correct path
-(we cannot include third-party executable files within this package). However, if you install `fastPHASE`
+Above, the `SNPknock` package could not find `fastphase` because we did not provide the correct path
+(we cannot include third-party executable files within this package). However, if you install `fastphase`
 separately and provide `SNPknock` with the correct path, this will work.
 
-If the previous step worked for you, you can find the parameter estimates produced by `fastPHASE`
+If the previous step worked for you, you can find the parameter estimates produced by `fastphase`
 in the following files:
 ```{r eval=FALSE}
 r_file = paste(fp_outPath, "_rhat.txt", sep="")

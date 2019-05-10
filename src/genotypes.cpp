@@ -356,13 +356,6 @@ void GroupGenotypes::knockoffMC(const std::vector<int> & H) {
 
     }
 
-    // //DEBUG
-    // std::cout << "Partition function for group " << g << " :\n\t";
-    // for(int k=0; k<nStates; k++) {
-    //   std::cout << Z[k] << " ";
-    // }
-    // std::cout<<std::endl;
-
     // Compute sampling weights
     for(int j=0; j<groupSize; j++) {
       std::fill(weights.begin(), weights.end(), 1.0);

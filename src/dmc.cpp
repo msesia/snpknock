@@ -50,16 +50,6 @@ KnockoffDMC::KnockoffDMC(const std::vector<int>& _G, int K, int seed){
   for(unsigned int g=0; g<gInd.size(); g++) {
     gInd[g] = arma::find(G==g);
   }
-
-  // // DEBUG
-  // std::cout<<"Groups:"<<std::endl;
-  // for(int i=0; i<gInd.size(); i++) {
-  //   std::cout<<"\t"<<i<<" : ";
-  //   for(unsigned int j=0; j<gInd[i].size(); j++) {
-  //     std::cout<<gInd[i][j]<<" ";
-  //   }
-  //   std::cout<<std::endl;
-  // }
 }
 
 KnockoffDMC::KnockoffDMC(const std::vector<double>& _pInit, const std::vector< matrix >& _Q,

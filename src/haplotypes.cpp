@@ -66,15 +66,6 @@ GroupHaplotypes::GroupHaplotypes(const std::vector<double> & r, const matrix & a
     elements[groups[i]].push_back(i);
   }
 
-  // // DEBUG
-  // std::cout<<"Groups:"<<std::endl;
-  // for(int i=0; i<nGroups; i++) {
-  //   std::cout<<"\t"<<i<<" : ";
-  //   for(unsigned int j=0; j<elements[i].size(); j++) {
-  //     std::cout<<elements[i][j]<<" ";
-  //   }
-  //   std::cout<<std::endl;
-  // }
 }
 
 void GroupHaplotypes::sampleViterbi(const std::vector<int> & X) {
@@ -142,8 +133,6 @@ void GroupHaplotypes::sampleViterbi(const std::vector<int> & X) {
 void GroupHaplotypes::knockoffMC(const std::vector<int> & H) {
   std::fill(Z_old.begin(), Z_old.end(), 1.0);
   double Z_min = 1.0e-10;
-  // //DEBUG
-  // std::cout<<std::endl;
 
   for(int g=0; g<nGroups; g++) {
     // Compute vstar
@@ -162,12 +151,6 @@ void GroupHaplotypes::knockoffMC(const std::vector<int> & H) {
         }
       }
     }
-    // //DEBUG
-    // std::cout << "v-star for group " << g << " :" << std::endl;
-    // for(int j=0; j<groupSize; j++) {
-    //   std::cout << vstar[j] << " ";
-    // }
-    // std::cout<<std::endl;
 
     // Compute vbar matrix
     matrix vbar;
@@ -194,14 +177,6 @@ void GroupHaplotypes::knockoffMC(const std::vector<int> & H) {
         }
       }
     }
-    // //DEBUG
-    // std::cout << "v-bar for group " << g << " :" << std::endl;
-    // for(int j=0; j<groupSize; j++) {
-    //   for(int k=0; k<nStates; k++) {
-    //     std::cout << vbar[j][k] << " ";
-    //   }
-    //   std::cout<<std::endl;
-    // }
 
     // Precompute sum for partition function
     double Z_sum = 0;
@@ -251,13 +226,6 @@ void GroupHaplotypes::knockoffMC(const std::vector<int> & H) {
       }
     }
 
-    // //DEBUG
-    // std::cout << "Partition function for group " << g << " :\n\t";
-    // for(int k=0; k<nStates; k++) {
-    //   std::cout << Z[k] << " ";
-    // }
-    // std::cout<<std::endl;
-
     // Compute sampling weights
     for(int j=0; j<groupSize; j++) {
       std::fill(weights.begin(), weights.end(), 1.0);
@@ -288,13 +256,6 @@ void GroupHaplotypes::knockoffMC(const std::vector<int> & H) {
         }
         weights_sum += weights[k];
       }
-
-      // // DEBUG
-      // std::cout << "\tWeights for element " << j << " of group " << g << ": " << std::endl << "\t";
-      // for(int k=0; k<nStates; k++) {
-      //   std::cout << weights[k]/weights_sum << " ";
-      // }
-      // std::cout<<std::endl;
 
       // Normalize weights
       for(int k=0; k<nStates; k++) {

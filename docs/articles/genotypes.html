@@ -91,7 +91,7 @@
       <h1>Using SNPknock with Genetic Data</h1>
                         <h4 class="author">Matteo Sesia (<a href="mailto:msesia@stanford.edu">msesia@stanford.edu</a>)</h4>
             
-            <h4 class="date">2019-05-09</h4>
+            <h4 class="date">2019-05-10</h4>
       
       
       <div class="hidden name"><code>genotypes.Rmd</code></div>
@@ -100,15 +100,15 @@
 
     
     
-<p>This vignette illustrates the basic usage of the <code>SNPknock</code> package in combination with the phasing software fastPHASE <span class="citation">(Scheet and Stephens 2006)</span> to create knockoffs of unphased genotypes or phased haplotypes <span class="citation">(M. Sesia, Sabatti, and Candès 2019,<span class="citation">Matteo Sesia et al. (2019)</span>)</span>. Since <code>fastPHASE</code> is not available as an R package, this functionality of <code>SNPknock</code> requires the user to first obtain a copy of <code>fastPHASE</code>.</p>
+<p>This vignette illustrates the basic usage of the <code>SNPknock</code> package in combination with the phasing software <code>fastphase</code> <span class="citation">(Scheet and Stephens 2006)</span> to create knockoffs of unphased genotypes or phased haplotypes <span class="citation">(M. Sesia, Sabatti, and Candès 2019,<span class="citation">Matteo Sesia et al. (2019)</span>)</span>. Since <code>fastphase</code> is not available as an R package, this functionality of <code>SNPknock</code> requires the user to first obtain a copy of <code>fastphase</code>.</p>
 <p>To learn more about the application of <code>SNPknock</code> to large genome-wide association studies <span class="citation">(Matteo Sesia et al. 2019)</span>, visit: <a href="https://msesia.github.io/knockoffzoom/" class="uri">https://msesia.github.io/knockoffzoom/</a>.</p>
 <div id="obtaining-fastphase" class="section level2">
 <h2 class="hasAnchor">
-<a href="#obtaining-fastphase" class="anchor"></a>Obtaining <code>fastPHASE</code>
+<a href="#obtaining-fastphase" class="anchor"></a>Obtaining <code>fastphase</code>
 </h2>
-<p>fastPHASE is a phasing and imputation tool based on the hidden Markov model described in <span class="citation">(Scheet and Stephens 2006)</span>.</p>
+<p><code>fastphase</code> is a phasing and imputation tool based on the hidden Markov model described in <span class="citation">(Scheet and Stephens 2006)</span>.</p>
 <p>Binary executables for Linux and Mac OS are available from <a href="http://scheet.org/software.html" class="uri">http://scheet.org/software.html</a>.</p>
-<p>Before continuing with this tutorial, download the fastPHASE tarball from the above link and extract the <code>fastPHASE</code> executable file into a convenient directory (e.g. “~/bin/”).</p>
+<p>Before continuing with this tutorial, download the <code>fastphase</code> tarball from the above link and extract the <code>fastphase</code> executable file into a convenient directory (e.g. “~/bin/”).</p>
 </div>
 <div id="knockoffs-for-unphased-genotypes" class="section level2">
 <h2 class="hasAnchor">
@@ -124,17 +124,17 @@
 <pre><code>## X
 ##      0      1      2 
 ## 130548  90112  25540</code></pre>
-<p>Below, we show how to fit a hidden Markov model to this data, with the help of <code>fastPHASE</code>. Since <code>fastPHASE</code> takes as input genotype sequences in “.inp” format, we must first convert the X matrix by calling <code>writeXtoInp</code>. By default, this function will write onto a temporary file in the R temporary directory.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Convert X into the suitable fastPHASE input format, write it into a temporary file</span></a>
+<p>Below, we show how to fit a hidden Markov model to this data, with the help of <code>fastphase</code>. Since <code>fastphase</code> takes as input genotype sequences in “.inp” format, we must first convert the X matrix by calling <code>writeXtoInp</code>. By default, this function will write onto a temporary file in the R temporary directory.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Convert X into the suitable fastphase input format, write it into a temporary file</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># and return the path to that file.</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">Xinp_file =<span class="st"> </span><span class="kw"><a href="../reference/writeXtoInp.html">writeXtoInp</a></span>(X)</a></code></pre></div>
-<p>Assuming that we have already downloaded <code>fastPHASE</code>, we can call it to fit the hidden Markov model to X.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">fp_path  =<span class="st"> "~/bin/fastphase"</span> <span class="co"># Path to the fastPHASE executable</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># Call fastPHASE and return the path to the parameter estimate files</span></a>
+<p>Assuming that we have already downloaded <code>fastphase</code>, we can call it to fit the hidden Markov model to X.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">fp_path  =<span class="st"> "~/bin/fastphase"</span> <span class="co"># Path to the fastphase executable</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># Call fastphase and return the path to the parameter estimate files</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">fp_outPath =<span class="st"> </span><span class="kw"><a href="../reference/runFastPhase.html">runFastPhase</a></span>(fp_path, Xinp_file, <span class="dt">K =</span> <span class="dv">12</span>, <span class="dt">numit =</span> <span class="dv">15</span>)</a></code></pre></div>
-<pre><code>## ~/bin/fastphase -Pp -T1 -K12 -g -H-4 -C15 -S1 -o'/tmp/RtmpBEaBqM/file2e1842baf96f' /tmp/RtmpBEaBqM/file2e182877aa24.inp</code></pre>
-<p>Above, the <code>SNPknock</code> package could not find <code>fastPHASE</code> because we did not provide the correct path (we cannot include third-party executable files within this package). However, if you install <code>fastPHASE</code> separately and provide <code>SNPknock</code> with the correct path, this will work.</p>
-<p>If the previous step worked for you, you can find the parameter estimates produced by <code>fastPHASE</code> in the following files:</p>
+<pre><code>## ~/bin/fastphase -Pp -T1 -K12 -g -H-4 -C15 -S1 -o'/tmp/RtmphpXYfC/file2b7e56e678c8' /tmp/RtmphpXYfC/file2b7e5cee7b79.inp</code></pre>
+<p>Above, the <code>SNPknock</code> package could not find <code>fastphase</code> because we did not provide the correct path (we cannot include third-party executable files within this package). However, if you install <code>fastphase</code> separately and provide <code>SNPknock</code> with the correct path, this will work.</p>
+<p>If the previous step worked for you, you can find the parameter estimates produced by <code>fastphase</code> in the following files:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_rhat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_alphahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_thetahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
@@ -172,18 +172,17 @@
 <pre><code>## H
 ##      0      1 
 ## 351208 141192</code></pre>
-<p>Below, we show how to fit a hidden Markov model to this data, with the help of <code>fastPHASE</code>. Since <code>fastPHASE</code> takes as input haplotype sequences in “.inp” format, we must first convert the H matrix by calling <code>writeXtoInp</code>. By default, this function will write onto a temporary file in the R temporary directory.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Convert X into the suitable fastPHASE input format, write it into a temporary file</span></a>
+<p>Below, we show how to fit a hidden Markov model to this data, with the help of <code>fastphase</code>. Since <code>fastphase</code> takes as input haplotype sequences in “.inp” format, we must first convert the H matrix by calling <code>writeXtoInp</code>. By default, this function will write onto a temporary file in the R temporary directory.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Convert X into the suitable fastphase input format, write it into a temporary file</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co"># and return the path to that file.</span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3">Hinp_file =<span class="st"> </span><span class="kw"><a href="../reference/writeXtoInp.html">writeXtoInp</a></span>(H, <span class="dt">phased =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p>Assuming that we have already downloaded <code>fastPHASE</code>, we can call it to fit the hidden Markov model to X.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">fp_path  =<span class="st"> "~/bin/fastPHASE"</span> <span class="co"># Path to the fastPHASE executable</span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co"># Call fastPHASE and return the path to the parameter estimate files</span></a>
+<p>Assuming that we have already downloaded <code>fastphase</code>, we can call it to fit the hidden Markov model to X.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">fp_path  =<span class="st"> "~/bin/fastphase"</span> <span class="co"># Path to the fastphase executable</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co"># Call fastphase and return the path to the parameter estimate files</span></a>
 <a class="sourceLine" id="cb14-3" data-line-number="3">fp_outPath =<span class="st"> </span><span class="kw"><a href="../reference/runFastPhase.html">runFastPhase</a></span>(fp_path, Hinp_file, <span class="dt">K =</span> <span class="dv">12</span>, <span class="dt">numit =</span> <span class="dv">15</span>, <span class="dt">phased =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code>## SNPknock could find the fastPHASE executable: '~/bin/fastPHASE' does not exist.
-## If you have not downloaded it yet, you can obtain fastPHASE from: http://scheet.org/software.html</code></pre>
-<p>Above, the <code>SNPknock</code> package could not find <code>fastPHASE</code> because we did not provide the correct path (we cannot include third-party executable files within this package). However, if you install <code>fastPHASE</code> separately and provide <code>SNPknock</code> with the correct path, this will work.</p>
-<p>If the previous step worked for you, you can find the parameter estimates produced by <code>fastPHASE</code> in the following files:</p>
+<pre><code>## ~/bin/fastphase -Pp -T1 -K12 -g -H-4 -C15 -B -S1 -o'/tmp/RtmphpXYfC/file2b7e4a801af5' /tmp/RtmphpXYfC/file2b7e44c20e60.inp</code></pre>
+<p>Above, the <code>SNPknock</code> package could not find <code>fastphase</code> because we did not provide the correct path (we cannot include third-party executable files within this package). However, if you install <code>fastphase</code> separately and provide <code>SNPknock</code> with the correct path, this will work.</p>
+<p>If the previous step worked for you, you can find the parameter estimates produced by <code>fastphase</code> in the following files:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">r_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_rhat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">alpha_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_alphahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
 <a class="sourceLine" id="cb16-3" data-line-number="3">theta_file =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(fp_outPath, <span class="st">"_thetahat.txt"</span>, <span class="dt">sep=</span><span class="st">""</span>)</a>
@@ -231,7 +230,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#obtaining-fastphase">Obtaining <code>fastPHASE</code></a></li>
+<li><a href="#obtaining-fastphase">Obtaining <code>fastphase</code></a></li>
       <li><a href="#knockoffs-for-unphased-genotypes">Knockoffs for unphased genotypes</a></li>
       <li><a href="#generating-knockoff-genotypes">Generating knockoff genotypes</a></li>
       <li><a href="#knockoffs-for-phased-haplotypes">Knockoffs for phased haplotypes</a></li>
