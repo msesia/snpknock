@@ -91,7 +91,7 @@
       <h1>Using SNPknock in R</h1>
                         <h4 class="author">Matteo Sesia (<a href="mailto:msesia@stanford.edu">msesia@stanford.edu</a>)</h4>
             
-            <h4 class="date">2019-05-10</h4>
+            <h4 class="date">2019-05-14</h4>
       
       
       <div class="hidden name"><code>SNPknock.Rmd</code></div>
@@ -101,7 +101,7 @@
     
     
 <p>This vignette illustrates the usage of the <code>SNPknock</code> package for creating knockoffs of discrete Markov chains and hidden Markov models <span class="citation">(Sesia, Sabatti, and Candès 2019)</span>. For simplicity, we will use synthetic data.</p>
-<p>The <code>SNPknock</code> package also provides a simple interface to the genotype imputation software <code>fastPhase</code>, which can be used to fit hidden Markov models for genotype data. Since <code>fastPhase</code> is not available as an R package, this particular functionality of <code>SNPknock</code> cannot be demonstrated here. A tutorial showing how to use a combination of <code>SNPknock</code> and <code>fastPhase</code> to create knockoffs of genotype data can be found here: <a href="https://web.stanford.edu/~msesia/software.html" class="uri">https://web.stanford.edu/~msesia/software.html</a>.</p>
+<p>The <code>SNPknock</code> package also provides a simple interface to the genotype imputation software <code>fastPhase</code>, which can be used to fit hidden Markov models for genotype data. Since <code>fastPhase</code> is not available as an R package, this particular functionality of <code>SNPknock</code> cannot be demonstrated here. A tutorial showing how to use a combination of <code>SNPknock</code> and <code>fastPhase</code> to create knockoffs of genotype data can be found <a href="genotypes.html">here</a>.</p>
 <div id="knockoffs-of-discrete-markov-chains" class="section level2">
 <h2 class="hasAnchor">
 <a href="#knockoffs-of-discrete-markov-chains" class="anchor"></a>Knockoffs of discrete Markov chains</h2>
@@ -123,21 +123,21 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2">X =<span class="st"> </span><span class="kw"><a href="../reference/sampleDMC.html">sampleDMC</a></span>(pInit, Q, <span class="dt">n=</span><span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(X[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,]    0    0    3    1    2    2    1    0    0     2
-## [2,]    3    3    3    4    2    2    1    2    3     3
-## [3,]    3    1    1    2    3    4    0    2    2     4
-## [4,]    3    1    3    2    3    0    2    2    2     2
-## [5,]    4    0    2    4    4    4    3    0    0     4</code></pre>
+## [1,]    0    0    3    3    3    3    2    0    0     3
+## [2,]    3    3    3    4    3    3    1    2    4     2
+## [3,]    3    2    2    2    2    4    1    2    2     4
+## [4,]    3    0    3    3    3    0    2    2    1     1
+## [5,]    4    0    1    3    3    3    3    1    1     3</code></pre>
 <p>Above, each row of <code>X</code> contains an independent realization of the Markov chain.</p>
 <p>A knockoff copy of <code>X</code> can be sampled as follows.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">Xk =<span class="st"> </span><span class="kw"><a href="../reference/knockoffDMC.html">knockoffDMC</a></span>(X, pInit, Q)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(Xk[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,]    2    0    3    3    2    2    2    1    0     3
-## [2,]    2    3    1    2    1    1    2    3    2     3
-## [3,]    0    1    1    2    3    0    0    2    2     2
-## [4,]    3    3    3    3    2    1    1    2    2     2
-## [5,]    0    0    3    3    4    4    0    0    4     3</code></pre>
+## [1,]    3    3    3    3    3    3    1    2    0     3
+## [2,]    3    3    3    3    0    0    3    3    2     2
+## [3,]    0    2    2    4    2    1    1    3    3     0
+## [4,]    3    3    3    4    2    0    2    2    1     1
+## [5,]    0    0    3    3    3    3    3    2    4     1</code></pre>
 </div>
 <div id="knockoffs-of-hidden-markov-models" class="section level2">
 <h2 class="hasAnchor">
@@ -183,7 +183,11 @@
 <h2 class="hasAnchor">
 <a href="#see-also" class="anchor"></a>See also</h2>
 <p>If you want to see how to use <code>SNPknock</code> to create knockoffs of genotype data, see the <a href="genotypes.html">genotypes vignette</a>.</p>
+<p>If you want to learn about <code>SNPknock</code> for large genome-wide association studies <span class="citation">(Sesia et al. 2019)</span>, see <a href="https://msesia.github.io/knockoffzoom/" class="uri">https://msesia.github.io/knockoffzoom/</a></p>
 <div id="refs" class="references">
+<div id="ref-sesia2019multi">
+<p>Sesia, M., E. Katsevich, S. Bates, E. Candès, and C. Sabatti. 2019. “Multi-Resolution Localization of Causal Variants Across the Genome.” <em>bioRxiv</em>. Cold Spring Harbor Laboratory. <a href="https://doi.org/10.1101/631390" class="uri">https://doi.org/10.1101/631390</a>.</p>
+</div>
 <div id="ref-sesia2019">
 <p>Sesia, M., C. Sabatti, and E. J. Candès. 2019. “Gene Hunting with Hidden Markov Model Knockoffs.” <em>Biometrika</em> 106:1–18. <a href="https://doi.org/10.1093/biomet/asy033" class="uri">https://doi.org/10.1093/biomet/asy033</a>.</p>
 </div>

@@ -12,7 +12,7 @@ vignette: >
 
 This vignette illustrates the usage of the `SNPknock` package for creating knockoffs of discrete Markov chains and hidden Markov models [@sesia2019]. For simplicity, we will use synthetic data.
 
-The `SNPknock` package also provides a simple interface to the genotype imputation software `fastPhase`, which can be used to fit hidden Markov models for genotype data. Since `fastPhase` is not available as an R package, this particular functionality of `SNPknock` cannot be demonstrated here. A tutorial showing how to use a combination of `SNPknock` and `fastPhase` to create knockoffs of genotype data can be found here: [https://web.stanford.edu/~msesia/software.html](https://web.stanford.edu/~msesia/software.html).
+The `SNPknock` package also provides a simple interface to the genotype imputation software `fastPhase`, which can be used to fit hidden Markov models for genotype data. Since `fastPhase` is not available as an R package, this particular functionality of `SNPknock` cannot be demonstrated here. A tutorial showing how to use a combination of `SNPknock` and `fastPhase` to create knockoffs of genotype data can be found [here](genotypes.html).
 
 
 ## Knockoffs of discrete Markov chains
@@ -92,3 +92,5 @@ print(Xk[1:5,1:10])
 ## See also
 
 If you want to see how to use `SNPknock` to create knockoffs of genotype data, see the [genotypes vignette](genotypes.html).
+
+If you want to learn about `SNPknock` for large genome-wide association studies [@sesia2019multi], see <https://msesia.github.io/knockoffzoom/>
