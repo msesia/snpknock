@@ -1,8 +1,8 @@
 Package: SNPknock
 Type: Package
 Title: Knockoffs for Hidden Markov Models and Genetic Data
-Version: 0.8.2
-Date: 2019-04-30
+Version: 0.8.3
+Date: 2019-05-20
 Authors@R: c(
            person("Matteo", "Sesia", , "msesia@stanford.edu", role = c("aut", "cre"))
            )                              
