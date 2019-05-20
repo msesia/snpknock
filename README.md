@@ -1,10 +1,10 @@
 # SNPknock
 
-[![Travis-CI build status](https://travis-ci.org/r-lib/SNPknock.svg?branch=master)](https://travis-ci.org/r-lib/SNPknock)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-lib/SNPknock?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/SNPknock)
+[![Travis-CI build status](https://travis-ci.org/msesia/SNPknock.svg?branch=master)](https://travis-ci.org/msesia/SNPknock)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/msesia/SNPknock?branch=master&svg=true)](https://ci.appveyor.com/project/msesia/SNPknock)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN Status](https://www.r-pkg.org/badges/version/SNPknock)](https://cran.r-project.org/package=SNPknock)
-[![Codecov test coverage](https://img.shields.io/codecov/c/github/r-lib/SNPknock/master.svg)](https://codecov.io/github/r-lib/SNPknock?branch=master)
+[![Codecov test coverage](https://img.shields.io/codecov/c/github/msesia/SNPknock/master.svg)](https://codecov.io/github/msesia/SNPknock?branch=master)
 
 This package provides efficient algorithms to generate knockoffs for hidden Markov models, with specific support for genetic data.
 
