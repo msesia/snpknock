@@ -35,6 +35,7 @@ class KnockoffHMM {
   ~KnockoffHMM();
   std::vector<int> sample(const std::vector<int> & X);
   std::vector< std::vector<int> > sample(const std::vector<std::vector<int> > & X);
+  std::vector<int> sample_fb(const std::vector<int> & X);
  private:
   std::random_device rd;
   std::mt19937 gen;

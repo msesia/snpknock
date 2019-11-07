@@ -38,7 +38,8 @@ class GroupHaplotypes {
                   const std::vector<int> _groups, int seed);
   imatrix sample(const imatrix & X);
   std::vector<int> sample(const std::vector<int> & X);
- private:
+  std::vector<int> sample_fb(const std::vector<int> & X);
+private:
   void sampleViterbi(const std::vector<int> & X);
   void knockoffMC(const std::vector<int> & H);
   void emission(const std::vector<int> & Hk);

@@ -294,7 +294,11 @@ imatrix GroupHaplotypes::sample(const std::vector<std::vector<int> > & X) {
     XkMatrix[i] = sample(X[i]);
   }
   return(XkMatrix);
+}
 
+std::vector<int> GroupHaplotypes::sample_fb(const std::vector<int> & X) {
+  sampleViterbi(X);
+  return(H);
 }
 
 #endif

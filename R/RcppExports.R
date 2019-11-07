@@ -29,3 +29,24 @@ knockoffHMM_wrapper <- function(X_, pInit_, Q_, pEmit_, n_, p_, K_, M_, seed_, G
     .Call(`_SNPknock_knockoffHMM_wrapper`, X_, pInit_, Q_, pEmit_, n_, p_, K_, M_, seed_, G_, display_progress_)
 }
 
+#' Wrapper for HMM forward-backward sampling
+#'
+#' @keywords internal
+fwHMM_wrapper <- function(X_, pInit_, Q_, pEmit_, n_, p_, K_, M_, seed_, G_, display_progress_) {
+    .Call(`_SNPknock_fwHMM_wrapper`, X_, pInit_, Q_, pEmit_, n_, p_, K_, M_, seed_, G_, display_progress_)
+}
+
+#' Wrapper for HMM forward-backward sampling (optimized for haplotypes)
+#'
+#' @keywords internal
+fwHaplotypes_wrapper <- function(X_, r_, alpha_, theta_, groups_, n_, p_, seed_, display_progress_) {
+    .Call(`_SNPknock_fwHaplotypes_wrapper`, X_, r_, alpha_, theta_, groups_, n_, p_, seed_, display_progress_)
+}
+
+#' Wrapper for HMM forward-backward sampling (optimized for genotypes)
+#'
+#' @keywords internal
+fwGenotypes_wrapper <- function(X_, r_, alpha_, theta_, groups_, n_, p_, seed_, display_progress_) {
+    .Call(`_SNPknock_fwGenotypes_wrapper`, X_, r_, alpha_, theta_, groups_, n_, p_, seed_, display_progress_)
+}
+

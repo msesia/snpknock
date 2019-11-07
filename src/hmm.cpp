@@ -66,6 +66,14 @@ std::vector<int> KnockoffHMM::sample(const std::vector<int> & X) {
   return(Xt);
 }
 
+std::vector<int> KnockoffHMM::sample_fb(const std::vector<int> & X) {
+  // Compute the beta values using the backward algorithm
+  backwardHMM(X);
+  // Sample the hidden states from their conditional distribution given the observations
+  sampleHMMConditional(X);
+  return(H);
+}
+
 std::vector< std::vector<int> > KnockoffHMM::sample(const std::vector<std::vector<int> > & X) {
   int n = X.size();
   std::vector< std::vector<int> > XtMatrix(n, std::vector<int>(p));

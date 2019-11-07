@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SNPknock</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.4</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
       <h1>Using SNPknock in R</h1>
                         <h4 class="author">Matteo Sesia (<a href="mailto:msesia@stanford.edu">msesia@stanford.edu</a>)</h4>
             
-            <h4 class="date">2019-05-20</h4>
+            <h4 class="date">2019-11-06</h4>
       
       
       <div class="hidden name"><code>SNPknock.Rmd</code></div>
@@ -123,21 +123,21 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2">X =<span class="st"> </span><span class="kw"><a href="../reference/sampleDMC.html">sampleDMC</a></span>(pInit, Q, <span class="dt">n=</span><span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(X[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,]    0    0    2    2    3    3    1    0    0     2
-## [2,]    3    3    3    4    3    4    0    2    3     2
-## [3,]    3    2    2    2    3    4    0    3    3     4
-## [4,]    3    1    3    3    3    0    2    2    1     1
-## [5,]    4    1    1    4    4    4    2    0    0     4</code></pre>
+## [1,]    0    0    1    1    3    3    3    0    0     1
+## [2,]    3    3    3    4    1    3    2    2    4     3
+## [3,]    3    3    2    2    2    3    2    2    2     4
+## [4,]    3    1    3    3    3    0    1    1    1     1
+## [5,]    4    0    1    4    3    3    3    0    0     3</code></pre>
 <p>Above, each row of <code>X</code> contains an independent realization of the Markov chain.</p>
 <p>A knockoff copy of <code>X</code> can be sampled as follows.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">Xk =<span class="st"> </span><span class="kw"><a href="../reference/knockoffDMC.html">knockoffDMC</a></span>(X, pInit, Q)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(Xk[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,]    1    2    2    3    3    3    1    1    0     0
-## [2,]    3    3    3    3    0    0    4    4    2     2
-## [3,]    0    2    2    3    3    2    0    3    3     3
-## [4,]    3    3    3    4    1    1    2    2    1     1
-## [5,]    0    0    1    3    4    4    1    1    4     0</code></pre>
+## [1,]    3    0    1    3    3    3    3    3    0     0
+## [2,]    3    3    3    3    0    0    4    4    2     3
+## [3,]    0    3    2    2    2    2    3    2    4     4
+## [4,]    3    3    3    4    0    0    0    1    1     1
+## [5,]    0    0    1    3    3    3    3    3    4     1</code></pre>
 </div>
 <div id="knockoffs-of-hidden-markov-models" class="section level2">
 <h2 class="hasAnchor">

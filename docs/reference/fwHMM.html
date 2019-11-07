@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Group knockoffs of hidden Markov models — knockoffHMM • SNPknock</title>
+<title>Forward-backward sampling for hidden Markov models — fwHMM • SNPknock</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Group knockoffs of hidden Markov models — knockoffHMM" />
+<meta property="og:title" content="Forward-backward sampling for hidden Markov models — fwHMM" />
 
-<meta property="og:description" content="This function constructs knockoffs of variables distributed as a hidden Markov model." />
+<meta property="og:description" content="This function samples the latent Markov chain of a hidden Markov model given the observed values." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,19 +122,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Group knockoffs of hidden Markov models</h1>
+    <h1>Forward-backward sampling for hidden Markov models</h1>
     
-    <div class="hidden name"><code>knockoffHMM.Rd</code></div>
+    <div class="hidden name"><code>fwHMM.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function constructs knockoffs of variables distributed as a hidden Markov model.</p>
+    <p>This function samples the latent Markov chain of a hidden Markov model given the observed values.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>knockoffHMM</span>(<span class='no'>X</span>, <span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='no'>pEmit</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>123</span>,
-  <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>display_progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>fwHMM</span>(<span class='no'>X</span>, <span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='no'>pEmit</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>123</span>, <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>display_progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,10 +155,6 @@
       <th>pEmit</th>
       <td><p>an array of size (p,M,K), containing the emission probabilities for each of the M possible emission states,
 from each of the K hidden states and the p variables.</p></td>
-    </tr>
-    <tr>
-      <th>groups</th>
-      <td><p>an array of length p, describing the group membership of each variable (default: NULL).</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -191,18 +187,12 @@ where \(H_j\) is the latent variable associated to \(X_j\).</p>
 &#8220;Gene hunting with hidden Markov model knockoffs.&#8221;
 <em>Biometrika</em>, <b>106</b>, 1--18.
 doi: <a href='http://doi.org/10.1093/biomet/asy033'>10.1093/biomet/asy033</a>
-.
-    Sesia M, Katsevich E, Bates S, Candès E, Sabatti C (2019).
-&#8220;Multi-resolution localization of causal variants across the genome.&#8221;
-<em>bioRxiv</em>.
-doi: <a href='http://doi.org/10.1101/631390'>10.1101/631390</a>
 .</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other knockoffs: <code><a href='knockoffDMC.html'>knockoffDMC</a></code>,
-  <code><a href='knockoffGenotypes.html'>knockoffGenotypes</a></code>,
-  <code><a href='knockoffHaplotypes.html'>knockoffHaplotypes</a></code></p></div>
+    <div class='dont-index'><p>Other hmm: <code><a href='fwGenotypes.html'>fwGenotypes</a></code>,
+  <code><a href='fwHaplotypes.html'>fwHaplotypes</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -214,11 +204,8 @@ doi: <a href='http://doi.org/10.1101/631390'>10.1101/631390</a>
 <span class='no'>pEmit</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='no'>p</span>*<span class='no'>M</span>*<span class='no'>K</span>),<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>p</span>,<span class='no'>M</span>,<span class='no'>K</span>))
 <span class='kw'>for</span>(<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>p</span>) { <span class='no'>pEmit</span>[<span class='no'>j</span>,,] <span class='kw'>=</span> <span class='no'>pEmit</span>[<span class='no'>j</span>,,] / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colSums'>rowSums</a></span>(<span class='no'>pEmit</span>[<span class='no'>j</span>,,]) }
 <span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sampleHMM.html'>sampleHMM</a></span>(<span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='no'>pEmit</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>20</span>)
-<span class='co'># Generate knockoffs</span>
-<span class='no'>Xk</span> <span class='kw'>=</span> <span class='fu'>knockoffHMM</span>(<span class='no'>X</span>, <span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='no'>pEmit</span>)
-<span class='co'># Generate group-knockoffs for groups of size 3</span>
-<span class='no'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='no'>p</span>), <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>length.out</span><span class='kw'>=</span><span class='no'>p</span>)
-<span class='no'>Xk</span> <span class='kw'>=</span> <span class='fu'>knockoffHMM</span>(<span class='no'>X</span>, <span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='no'>pEmit</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>groups</span>)</div></pre>
+<span class='co'># Forward-backward sampling</span>
+<span class='no'>H</span> <span class='kw'>=</span> <span class='fu'>fwHMM</span>(<span class='no'>X</span>, <span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='no'>pEmit</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

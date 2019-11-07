@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Group knockoffs of discrete Markov chains — knockoffDMC • SNPknock</title>
+<title>Forward-backward sampling for hidden Markov models for haplotypes — fwHaplotypes • SNPknock</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Group knockoffs of discrete Markov chains — knockoffDMC" />
+<meta property="og:title" content="Forward-backward sampling for hidden Markov models for haplotypes — fwHaplotypes" />
 
-<meta property="og:description" content="This function constructs knockoffs of variables distributed as a discrete Markov chain." />
+<meta property="og:description" content="This function samples the latent Markov chain of a hidden Markov model given the observed values,
+given an HMM for phased haplotypes." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,18 +123,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Group knockoffs of discrete Markov chains</h1>
+    <h1>Forward-backward sampling for hidden Markov models for haplotypes</h1>
     
-    <div class="hidden name"><code>knockoffDMC.Rd</code></div>
+    <div class="hidden name"><code>fwHaplotypes.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function constructs knockoffs of variables distributed as a discrete Markov chain.</p>
+    <p>This function samples the latent Markov chain of a hidden Markov model given the observed values,
+given an HMM for phased haplotypes.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>knockoffDMC</span>(<span class='no'>X</span>, <span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>123</span>, <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>fwHaplotypes</span>(<span class='no'>X</span>, <span class='no'>r</span>, <span class='no'>alpha</span>, <span class='no'>theta</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>123</span>, <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>display_progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -141,19 +143,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>X</th>
-      <td><p>an integer matrix of size n-by-p containing the original variables.</p></td>
+      <td><p>a binary matrix of size n-by-p containing the original variables.</p></td>
     </tr>
     <tr>
-      <th>pInit</th>
-      <td><p>an array of length K, containing the marginal distribution of the states for the first variable.</p></td>
+      <th>r</th>
+      <td><p>a vector of length p containing the "r" parameters estimated by fastPHASE.</p></td>
     </tr>
     <tr>
-      <th>Q</th>
-      <td><p>an array of size (p-1,K,K), containing a list of p-1 transition matrices between the K states of the Markov chain.</p></td>
+      <th>alpha</th>
+      <td><p>a matrix of size p-by-K containing the "alpha" parameters estimated by fastPHASE.</p></td>
     </tr>
     <tr>
-      <th>groups</th>
-      <td><p>an array of length p, describing the group membership of each variable (default: NULL).</p></td>
+      <th>theta</th>
+      <td><p>a matrix of size p-by-K containing the "theta" parameters estimated by fastPHASE.</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -171,21 +173,11 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An integer matrix of size n-by-p containing the knockoff variables.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Each element of the matrix X should be an integer value between 0 and K-1.
-The transition matrices contained in Q are defined such that \(P[X_{j+1}=k|X_{j}=l]=Q[j,l,k]\).</p>
+    <p>A binary matrix of size n-by-p containing the knockoff variables.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Sesia M, Sabatti C, Candès EJ (2019).
-&#8220;Gene hunting with hidden Markov model knockoffs.&#8221;
-<em>Biometrika</em>, <b>106</b>, 1--18.
-doi: <a href='http://doi.org/10.1093/biomet/asy033'>10.1093/biomet/asy033</a>
-.
-    Sesia M, Katsevich E, Bates S, Candès E, Sabatti C (2019).
+    <p>Sesia M, Katsevich E, Bates S, Candès E, Sabatti C (2019).
 &#8220;Multi-resolution localization of causal variants across the genome.&#8221;
 <em>bioRxiv</em>.
 doi: <a href='http://doi.org/10.1101/631390'>10.1101/631390</a>
@@ -193,23 +185,30 @@ doi: <a href='http://doi.org/10.1101/631390'>10.1101/631390</a>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other knockoffs: <code><a href='knockoffGenotypes.html'>knockoffGenotypes</a></code>,
-  <code><a href='knockoffHMM.html'>knockoffHMM</a></code>,
-  <code><a href='knockoffHaplotypes.html'>knockoffHaplotypes</a></code></p></div>
+    <div class='dont-index'><p>Other hmm: <code><a href='fwGenotypes.html'>fwGenotypes</a></code>, <code><a href='fwHMM.html'>fwHMM</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Generate data</span>
-<span class='no'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>; <span class='no'>K</span> <span class='kw'>=</span> <span class='fl'>5</span>;
-<span class='no'>pInit</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>/<span class='no'>K</span>,<span class='no'>K</span>)
-<span class='no'>Q</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>((<span class='no'>p</span>-<span class='fl'>1</span>)*<span class='no'>K</span>*<span class='no'>K</span>),<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>p</span>-<span class='fl'>1</span>,<span class='no'>K</span>,<span class='no'>K</span>))
-<span class='kw'>for</span>(<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:(<span class='no'>p</span>-<span class='fl'>1</span>)) { <span class='no'>Q</span>[<span class='no'>j</span>,,] <span class='kw'>=</span> <span class='no'>Q</span>[<span class='no'>j</span>,,] / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colSums'>rowSums</a></span>(<span class='no'>Q</span>[<span class='no'>j</span>,,]) }
-<span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sampleDMC.html'>sampleDMC</a></span>(<span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>20</span>)
-<span class='co'># Generate knockoffs</span>
-<span class='no'>Xk</span> <span class='kw'>=</span> <span class='fu'>knockoffDMC</span>(<span class='no'>X</span>, <span class='no'>pInit</span>, <span class='no'>Q</span>)
-<span class='co'># Generate group-knockoffs for groups of size 3</span>
-<span class='no'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='no'>p</span>), <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>length.out</span><span class='kw'>=</span><span class='no'>p</span>)
-<span class='no'>Xk</span> <span class='kw'>=</span> <span class='fu'>knockoffDMC</span>(<span class='no'>X</span>, <span class='no'>pInit</span>, <span class='no'>Q</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>groups</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Problem size</span>
+<span class='no'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>
+<span class='no'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>
+<span class='co'># Load HMM to generate data</span>
+<span class='no'>r_file</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"haplotypes_rhat.txt"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"SNPknock"</span>)
+<span class='no'>alpha_file</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"haplotypes_alphahat.txt"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"SNPknock"</span>)
+<span class='no'>theta_file</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"haplotypes_thetahat.txt"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"SNPknock"</span>)
+<span class='no'>char_file</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"haplotypes_origchars"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"SNPknock"</span>)
+<span class='no'>hmm.data</span> <span class='kw'>=</span> <span class='fu'><a href='loadHMM.html'>loadHMM</a></span>(<span class='no'>r_file</span>, <span class='no'>alpha_file</span>, <span class='no'>theta_file</span>, <span class='no'>char_file</span>, <span class='kw'>compact</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>phased</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>hmm.data</span>$<span class='no'>Q</span> <span class='kw'>=</span> <span class='no'>hmm.data</span>$<span class='no'>Q</span>[<span class='fl'>1</span>:(<span class='no'>p</span>-<span class='fl'>1</span>),,]
+<span class='no'>hmm.data</span>$<span class='no'>pEmit</span> <span class='kw'>=</span> <span class='no'>hmm.data</span>$<span class='no'>pEmit</span>[<span class='fl'>1</span>:<span class='no'>p</span>,,]
+<span class='co'># Sample X from this HMM</span>
+<span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sampleHMM.html'>sampleHMM</a></span>(<span class='no'>hmm.data</span>$<span class='no'>pInit</span>, <span class='no'>hmm.data</span>$<span class='no'>Q</span>, <span class='no'>hmm.data</span>$<span class='no'>pEmit</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='no'>n</span>)
+<span class='co'># Load HMM to generate knockoffs</span>
+<span class='no'>hmm</span> <span class='kw'>=</span> <span class='fu'><a href='loadHMM.html'>loadHMM</a></span>(<span class='no'>r_file</span>, <span class='no'>alpha_file</span>, <span class='no'>theta_file</span>, <span class='no'>char_file</span>)
+<span class='no'>hmm</span>$<span class='no'>r</span> <span class='kw'>=</span> <span class='no'>hmm</span>$<span class='no'>r</span>[<span class='fl'>1</span>:<span class='no'>p</span>]
+<span class='no'>hmm</span>$<span class='no'>alpha</span> <span class='kw'>=</span> <span class='no'>hmm</span>$<span class='no'>alpha</span>[<span class='fl'>1</span>:<span class='no'>p</span>,]
+<span class='no'>hmm</span>$<span class='no'>theta</span> <span class='kw'>=</span> <span class='no'>hmm</span>$<span class='no'>theta</span>[<span class='fl'>1</span>:<span class='no'>p</span>,]
+<span class='co'># Forward-backward sampling</span>
+<span class='no'>H</span> <span class='kw'>=</span> <span class='fu'>fwHaplotypes</span>(<span class='no'>X</span>, <span class='no'>hmm</span>$<span class='no'>r</span>, <span class='no'>hmm</span>$<span class='no'>alpha</span>, <span class='no'>hmm</span>$<span class='no'>theta</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -217,8 +216,6 @@ doi: <a href='http://doi.org/10.1101/631390'>10.1101/631390</a>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
 

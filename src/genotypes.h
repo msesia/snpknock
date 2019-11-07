@@ -38,6 +38,7 @@ class GroupGenotypes {
                  const std::vector<int> _groups, int seed);
   imatrix sample(const imatrix & X);
   std::vector<int> sample(const std::vector<int> & X);
+  std::vector<int> sample_fb(const std::vector<int> & X);
  private:
   int pair_to_index(int i, int j);
   std::vector<int> single_to_indices(int j);
